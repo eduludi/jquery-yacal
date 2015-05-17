@@ -1,0 +1,78 @@
+body {
+	font-family: helvetica, arial;
+}
+h2 {
+	margin-top: 30px;
+	clear: both;
+}
+.month {
+	position: relative;
+	float: left;
+	margin: 10px;
+	border: 1px solid lightgray;
+}
+.month h4 {
+	text-align: center;
+	margin: 0;
+	padding: 10px;
+	border-bottom: 1px solid lightgray;
+	background-color: rgba(150,150,150,0.3);
+}
+.week {
+	position: relative;
+	height: 30px;
+	width: 210px;
+}
+.week:hover {
+	background-color: #eee;
+}
+.day,
+.weekday {
+	display: block;
+	width: 30px;
+	height: 25px;
+	padding-top: 5px;
+	position: absolute;
+	text-align: center;
+	text-decoration: none;
+}
+.day.weekend {
+	background-color: rgba(150,150,150,0.2);
+}
+.day.today {
+	background-color: #39c;
+	color: white;
+}
+.day.selected {
+	box-shadow: inset 1px 1px 0 #222, 
+							inset -1px -1px 0 #222;
+}
+.day.day0,
+.weekday.weekday0 {
+	left: 0;
+}
+.day.day1,
+.weekday.weekday1 {
+	left: 30px;
+}
+.day.day2,
+.weekday.weekday2 {
+	left: 60px;
+}
+.day.day3,
+.weekday.weekday3 {
+	left: 90px;
+}
+.day.day4,
+.weekday.weekday4 {
+	left: 120px;
+}
+.day.day5,
+.weekday.weekday5 {
+	left: 150px;
+}
+.day.day6,
+.weekday.weekday6 {
+	left: 180px;
+}
+

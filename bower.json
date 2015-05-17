@@ -1,0 +1,25 @@
+{
+  "name": "jquery-yacal",
+  "version": "0.1.0",
+  "homepage": "https://github.com/eduludi/jquery-yacal",
+  "authors": [
+    "Eduardo Ludi <eduludi@gmail.com>"
+  ],
+  "description": "Yet Another Calendar plugin for jQuery",
+  "main": "jquery.yacal.js",
+  "keywords": [
+    "jquery",
+    "plugin",
+    "calendar",
+    "yacal",
+    "lightweight"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
