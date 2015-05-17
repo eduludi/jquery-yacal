@@ -12,6 +12,10 @@ The main idea behind yacal is getting a basic calendar DOM structure that you ca
 * It's **not a Date Picker** (but you can build one with it adding some lines of jQuery and Monent.js in your project)
 * It's **not a Events Calendar** (again, you can do some basic jQuery stuff and get events calendar working too)
 
+## Demo
+
+Here is a **[Demo page](http://eduludi.github.io/jquery-yacal/demo.html)**
+
 ## Installation
 
 Include script *after* the jQuery library (unless you are packaging scripts somehow else):
