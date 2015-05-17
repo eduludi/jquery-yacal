@@ -1,5 +1,5 @@
 # jQuery Yacal
-**Y**et **A**nother **Cal**endar plugin for jQuery
+**Y**et **A**nother **Cal**endar plugin for jQuery.
 
 ## What is yacal?
 It is a lightweight jQuery calendar plugin, easy to configure and use. 
@@ -150,7 +150,7 @@ $('.calendar').yacal({
 * Configurations: 
 	* First day of the week
 	* Date Ranges (min/max)
-* Bower support
+* Bower support (testing)
 * Coffescript version
 
 ## Authors
