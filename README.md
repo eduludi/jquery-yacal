@@ -49,7 +49,7 @@ $('#calendar2000').yacal({
 
 There is a CSS file in the project (`styles.css`) with some basic definitions for yacal's default template.
 
-### Templates
+## Templates
 
 In yacal is possible to configure the resulting output. The plugin provides access to all the templates used in the rendering. Just keep in mind that every month has this structure:
 
