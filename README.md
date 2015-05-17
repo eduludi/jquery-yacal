@@ -154,6 +154,8 @@ $('.calendar').yacal({
 * Configurations: 
 	* First day of the week
 	* Date Ranges (min/max)
+	* Ideas?
+* Add a min/compressed version
 * Bower support (testing)
 * Coffescript version
 
