@@ -1,4 +1,4 @@
-# jQuery Yacal
+# jQuery yacal
 **Y**et **A**nother **Cal**endar plugin for jQuery.
 
 ## What is yacal?
@@ -154,6 +154,8 @@ $('.calendar').yacal({
 * Configurations: 
 	* First day of the week
 	* Date Ranges (min/max)
+	* Ideas?
+* Add a min/compressed version
 * Bower support (testing)
 * Coffescript version
 
