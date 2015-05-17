@@ -1,4 +1,4 @@
-# jQuery Yacal
+# jQuery yacal
 **Y**et **A**nother **Cal**endar plugin for jQuery.
 
 ## What is yacal?
