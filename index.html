@@ -36,11 +36,12 @@
 <h2>
 <a id="what-is-yacal" class="anchor" href="#what-is-yacal" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is yacal?</h2>
 
-<p>It is a lightweight jQuery calendar plugin, easy to configure and use. 
+<p>It is a lightweight (~2.5KB)  <strong>jQuery calendar plugin</strong>, easy to configure and use. 
 It comes with a default template, but you can tune up at your taste. 
 Also supports some basic internationalization. </p>
 
-<p>The main idea behind yacal is getting a basic calendar DOM structure that you can use as you please. So, do whatever you whant with it. </p>
+<p>The main idea behind yacal is getting a basic calendar DOM structure that you can use as you please. 
+So, do whatever you whant with it. </p>
 
 <h2>
 <a id="what-is-not" class="anchor" href="#what-is-not" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is not?</h2>
@@ -58,9 +59,17 @@ Also supports some basic internationalization. </p>
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<p>Include script <em>after</em> the jQuery library (unless you are packaging scripts somehow else):</p>
+<p><strong>yacal</strong> only requires <a href="http://jquery.com">jQuery</a> (&gt;= v1.8.x) as dependency. So, just include the script <em>after</em> the jQuery library (unless you are packaging scripts somehow else):</p>
 
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>/path/to/jquery.yacal.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+<div class="highlight highlight-html"><pre><span class="pl-c">&lt;!-- uncompressed (development) --&gt;</span> 
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>/path/to/jquery.yacal.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+
+<span class="pl-c">&lt;!-- OR compressed (production) --&gt;</span> 
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>/path/to/jquery.yacal.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<blockquote>
+<p>Note: yacal's javascripts and stylesheets are located in project's <code>dist</code> folder</p>
+</blockquote>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
@@ -68,7 +77,7 @@ Also supports some basic internationalization. </p>
 <h3>
 <a id="with-data--attributes" class="anchor" href="#with-data--attributes" aria-hidden="true"><span class="octicon octicon-link"></span></a>With <code>data-*</code> attributes</h3>
 
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>yacal<span class="pl-pds">"</span></span> <span class="pl-e">data-date</span>=<span class="pl-s"><span class="pl-pds">"</span>2020/10/26<span class="pl-pds">"</span></span> <span class="pl-e">data-nearmonths</span>=<span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>yacal<span class="pl-pds">"</span></span> <span class="pl-e">data-date</span>=<span class="pl-s"><span class="pl-pds">"</span>2020/10/26<span class="pl-pds">"</span></span> <span class="pl-e">data-near-months</span>=<span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
 
 <h3>
 <a id="with-javascript" class="anchor" href="#with-javascript" aria-hidden="true"><span class="octicon octicon-link"></span></a>with Javascript</h3>
@@ -80,10 +89,24 @@ Also supports some basic internationalization. </p>
     nearmonths<span class="pl-k">:</span> <span class="pl-c1">1</span>,
 });</pre></div>
 
+<h3>
+<a id="default-configurations" class="anchor" href="#default-configurations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Default Configurations</h3>
+
+<div class="highlight highlight-javascript"><pre>options <span class="pl-k">=</span> {
+    date<span class="pl-k">:</span> <span class="pl-k">new</span> <span class="pl-en">Date</span>(),    <span class="pl-c">// Sets the date. i.e: '2010/10/10', '2012/06' , default is now</span>
+    nearMonths<span class="pl-k">:</span> <span class="pl-c1">0</span>,       <span class="pl-c">// How many months will be displayed to each side. Default is 0</span>
+    showWeekdays<span class="pl-k">:</span> <span class="pl-c1">true</span>,  <span class="pl-c">// Toggles the week days ('Su','Mo','Tu',etc). Default is true</span>
+    minDate<span class="pl-k">:</span> <span class="pl-c1">null</span>,       <span class="pl-c">// Sets the minimal date range (inclusive). For markup only. Default is null</span>
+    maxDate<span class="pl-k">:</span> <span class="pl-c1">null</span>,       <span class="pl-c">// Sets the maximal date range (inclusive). For markup only. Default is null</span>
+    firstDay<span class="pl-k">:</span> <span class="pl-c1">0</span>,         <span class="pl-c">// Sets the first day of the week. Default is 0 (Sunday)</span>
+});
+
+$(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="pl-pds">'</span></span>).yacal(options);</pre></div>
+
 <h2>
 <a id="css-styles" class="anchor" href="#css-styles" aria-hidden="true"><span class="octicon octicon-link"></span></a>CSS Styles</h2>
 
-<p>There is a CSS file in the project (<code>styles.css</code>) with some basic definitions for yacal's default template.</p>
+<p>There is a CSS file in the project (<code>dist/jquery.yacal.css</code>) with some basic definitions for yacal's default template.</p>
 
 <h2>
 <a id="templates" class="anchor" href="#templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Templates</h2>
@@ -126,7 +149,12 @@ Also supports some basic internationalization. </p>
 });</pre></div>
 
 <h4>
-<a id="--day-template" class="anchor" href="#--day-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>- Day template</h4>
+<a id="templates-placeholders" class="anchor" href="#templates-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Templates Placeholders</h4>
+
+<p>The plugin provides several <em>placeholders</em> for each template. These placeholders will return specific information from template. </p>
+
+<h5>
+<a id="days-placeholders" class="anchor" href="#days-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Day's placeholders</h5>
 
 <ul>
 <li>
@@ -145,8 +173,8 @@ Also supports some basic internationalization. </p>
 <code>&lt;#selected#&gt;</code>: returns 'selected' if day the selected one</li>
 </ul>
 
-<h4>
-<a id="--weekday-template" class="anchor" href="#--weekday-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>- Weekday template</h4>
+<h5>
+<a id="weekdays-placeholders" class="anchor" href="#weekdays-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Weekday's placeholders</h5>
 
 <ul>
 <li>
@@ -156,23 +184,23 @@ Also supports some basic internationalization. </p>
 <code>&lt;#weekdayName#&gt;</code>: day's name (i.e. 'Su','Mo',etc). It will depend on the i18n configurations under <code>tpl.weekdays</code>.</li>
 </ul>
 
-<h4>
-<a id="--week-open-template" class="anchor" href="#--week-open-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>- Week Open template</h4>
+<h5>
+<a id="week-opens-placeholders" class="anchor" href="#week-opens-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Week Open's placeholders</h5>
 
 <ul>
 <li>
 <code>&lt;#weekNumber#&gt;</code>: week's number in the year</li>
 </ul>
 
-<h4>
-<a id="--week-close-template" class="anchor" href="#--week-close-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>- Week close template</h4>
+<h5>
+<a id="week-closes-placeholders" class="anchor" href="#week-closes-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Week Close's placeholders</h5>
 
 <ul>
 <li>(has no placeholders}</li>
 </ul>
 
-<h4>
-<a id="--month-template" class="anchor" href="#--month-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>- Month template</h4>
+<h5>
+<a id="months-placeholders" class="anchor" href="#months-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Month's placeholders</h5>
 
 <ul>
 <li>
@@ -217,13 +245,10 @@ Also supports some basic internationalization. </p>
 
 <ul>
 <li>First day of the week</li>
-<li>Date Ranges (min/max)</li>
 <li>Ideas?</li>
 </ul>
 </li>
-<li>Add a min/compressed version</li>
 <li>Bower support (testing)</li>
-<li>Coffescript version</li>
 </ul>
 
 <h2>
