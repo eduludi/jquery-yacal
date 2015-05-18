@@ -1,57 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640">
-
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
     <title>jQuery yacal by eduludi</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
-    <a id="forkme_banner" href="https://github.com/eduludi/jquery-yacal">View on GitHub</a>
-    <div class="shell">
-
+    <div class="wrapper">
       <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>jQuery yacal</h1>
-            <h2>Yet Another Calendar plugin for jQuery</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
+        <h1>jQuery yacal</h1>
+        <p>Yet Another Calendar plugin for jQuery</p>
+
+        <p class="view"><a href="https://github.com/eduludi/jquery-yacal">View the Project on GitHub <small>eduludi/jquery-yacal</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/eduludi/jquery-yacal/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/eduludi/jquery-yacal/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/eduludi/jquery-yacal">View On <strong>GitHub</strong></a></li>
+        </ul>
       </header>
-
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/eduludi/jquery-yacal/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/eduludi/jquery-yacal/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
-
-
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
+      <section>
         <h1>
-<a id="jquery-yacal" class="anchor" href="#jquery-yacal" aria-hidden="true"><span class="octicon octicon-link"></span></a>jQuery Yacal</h1>
+<a id="jquery-yacal" class="anchor" href="#jquery-yacal" aria-hidden="true"><span class="octicon octicon-link"></span></a>jQuery yacal</h1>
 
-<p><strong>Y</strong>et <strong>A</strong>nother <strong>Cal</strong>endar plugin for jQuery</p>
-
-<p><a href="demo.html">Demo</a></p>
+<p><strong>Y</strong>et <strong>A</strong>nother <strong>Cal</strong>endar plugin for jQuery.</p>
 
 <h2>
 <a id="what-is-yacal" class="anchor" href="#what-is-yacal" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is yacal?</h2>
@@ -69,6 +49,11 @@ Also supports some basic internationalization. </p>
 <li>It's <strong>not a Date Picker</strong> (but you can build one with it adding some lines of jQuery and Monent.js in your project)</li>
 <li>It's <strong>not a Events Calendar</strong> (again, you can do some basic jQuery stuff and get events calendar working too)</li>
 </ul>
+
+<h2>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo</h2>
+
+<p>Here is a <strong><a href="http://eduludi.github.io/jquery-yacal/demo.html">Demo page</a></strong></p>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
@@ -100,8 +85,8 @@ Also supports some basic internationalization. </p>
 
 <p>There is a CSS file in the project (<code>styles.css</code>) with some basic definitions for yacal's default template.</p>
 
-<h3>
-<a id="templates" class="anchor" href="#templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Templates</h3>
+<h2>
+<a id="templates" class="anchor" href="#templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Templates</h2>
 
 <p>In yacal is possible to configure the resulting output. The plugin provides access to all the templates used in the rendering. Just keep in mind that every month has this structure:</p>
 
@@ -233,9 +218,11 @@ Also supports some basic internationalization. </p>
 <ul>
 <li>First day of the week</li>
 <li>Date Ranges (min/max)</li>
+<li>Ideas?</li>
 </ul>
 </li>
-<li>Bower support</li>
+<li>Add a min/compressed version</li>
+<li>Bower support (testing)</li>
 <li>Coffescript version</li>
 </ul>
 
@@ -248,21 +235,12 @@ Also supports some basic internationalization. </p>
 (David Bushell <a href="https://github.com/dbushell" class="user-mention">@dbushell</a> and Ramiro Rikkert @RamRik)</p></li>
 </ul>
       </section>
-
       <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/eduludi">eduludi</a> can be found on <a href="https://github.com/eduludi/jquery-yacal">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="https://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
+        <p>This project is maintained by <a href="https://github.com/eduludi">eduludi</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
-
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
