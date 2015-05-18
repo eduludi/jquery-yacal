@@ -2,11 +2,12 @@
 **Y**et **A**nother **Cal**endar plugin for jQuery.
 
 ## What is yacal?
-It is a lightweight jQuery calendar plugin, easy to configure and use. 
+It is a lightweight (~2.5KB)  **jQuery calendar plugin**, easy to configure and use. 
 It comes with a default template, but you can tune up at your taste. 
 Also supports some basic internationalization. 
 
-The main idea behind yacal is getting a basic calendar DOM structure that you can use as you please. So, do whatever you whant with it. 
+The main idea behind yacal is getting a basic calendar DOM structure that you can use as you please. 
+So, do whatever you whant with it. 
 
 ## What is not?
 * It's **not a Date Picker** (but you can build one with it adding some lines of jQuery and Monent.js in your project)
@@ -18,18 +19,25 @@ Here is a **[Demo page](http://eduludi.github.io/jquery-yacal/demo.html)**
 
 ## Installation
 
-Include script *after* the jQuery library (unless you are packaging scripts somehow else):
+**yacal** only requires [jQuery](http://jquery.com) (>= v1.8.x) as dependency. So, just include the script *after* the jQuery library (unless you are packaging scripts somehow else):
+
 
 ```html
+<!-- uncompressed (development) --> 
 <script src="/path/to/jquery.yacal.js"></script>
+
+<!-- OR compressed (production) --> 
+<script src="/path/to/jquery.yacal.min.js"></script>
 ```
+
+> Note: yacal's javascripts and stylesheets are located in project's `dist` folder
 
 ## Usage
 
 ### With `data-*` attributes
 
 ```html
-<div class="yacal" data-date="2020/10/26" data-nearmonths="2"></div>
+<div class="yacal" data-date="2020/10/26" data-near-months="2"></div>
 ```
 
 ### with Javascript
@@ -45,9 +53,24 @@ $('#calendar2000').yacal({
 });
 ```
 
+### Default Configurations
+
+```javascript
+options = {
+	date: new Date(),    // Sets the date. i.e: '2010/10/10', '2012/06' , default is now
+	nearMonths: 0,       // How many months will be displayed to each side. Default is 0
+	showWeekdays: true,  // Toggles the week days ('Su','Mo','Tu',etc). Default is true
+	minDate: null,       // Sets the minimal date range (inclusive). For markup only. Default is null
+	maxDate: null,       // Sets the maximal date range (inclusive). For markup only. Default is null
+	firstDay: 0,         // Sets the first day of the week. Default is 0 (Sunday)
+});
+
+$('#aDefaultCalendar').yacal(options);
+```
+
 ## CSS Styles
 
-There is a CSS file in the project (`styles.css`) with some basic definitions for yacal's default template.
+There is a CSS file in the project (`dist/jquery.yacal.css`) with some basic definitions for yacal's default template.
 
 ## Templates
 
@@ -94,7 +117,11 @@ $('.calendar').yacal({
 });
 ```
 
-#### - Day template
+#### Templates Placeholders
+
+The plugin provides several _placeholders_ for each template. These placeholders will return specific information from template. 
+
+##### Day's placeholders
 
 - `<#day#>`: day's number in the month, from `1` to `31`
 - `<#weekday#>`: day's number in the week, from `0` to `6`
@@ -103,20 +130,20 @@ $('.calendar').yacal({
 - `<#today#>`: returns 'today' if is today 
 - `<#selected#>`: returns 'selected' if day the selected one
 
-#### - Weekday template
+##### Weekday's placeholders
 
 - `<#weekdayNumber#>`: day number in the week, from `0` to `6`
 - `<#weekdayName#>`: day's name (i.e. 'Su','Mo',etc). It will depend on the i18n configurations under `tpl.weekdays`.
 
-#### - Week Open template
+##### Week Open's placeholders
 
 - `<#weekNumber#>`: week's number in the year
 
-#### - Week close template
+##### Week Close's placeholders
 
 - (has no placeholders}
 
-#### - Month template
+##### Month's placeholders
 
 - `<#monthName#>`: Month's name (i.e. 'January','February',etc). It will depend on the i18n configurations under `tpl.months`.
 - `<#year#>`: Year number (i.e. '1999','2010',etc).
@@ -153,11 +180,8 @@ $('.calendar').yacal({
 * Navigation (prev/next month/year)
 * Configurations: 
 	* First day of the week
-	* Date Ranges (min/max)
 	* Ideas?
-* Add a min/compressed version
 * Bower support (testing)
-* Coffescript version
 
 ## Authors
 

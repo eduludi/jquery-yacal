@@ -1,51 +1,71 @@
 body {
 	font-family: helvetica, arial;
 }
-h2 {
-	margin-top: 30px;
+h1,
+h2,
+h3 {
 	clear: both;
+	padding: 20px 10px 10px;
+	margin: 0;
 }
 .month {
 	position: relative;
 	float: left;
 	margin: 10px;
 	border: 1px solid lightgray;
+	border-radius: 2%;
 }
 .month h4 {
 	text-align: center;
 	margin: 0;
 	padding: 10px;
 	border-bottom: 1px solid lightgray;
-	background-color: rgba(150,150,150,0.3);
+	overflow: hidden;
 }
 .week {
 	position: relative;
 	height: 30px;
 	width: 210px;
+	margin: 4px;
+	border: 0 solid transparent;
+	border-width: 1px 0;
 }
-.week:hover {
-	background-color: #eee;
+.week:not(.week0):hover {
+	border-color: lightgray;
 }
 .day,
 .weekday {
 	display: block;
-	width: 30px;
-	height: 25px;
-	padding-top: 5px;
+	width: 26px;
+	height: 22px;
+	padding-top: 4px;
 	position: absolute;
 	text-align: center;
 	text-decoration: none;
+	border: 2px solid transparent;
+	border-radius: 16px;
+	font-size: 14px;
+	color: #aaa;
 }
 .day.weekend {
-	background-color: rgba(150,150,150,0.2);
+	color: #9c9 !important;
 }
 .day.today {
-	background-color: #39c;
-	color: white;
+	background-color: #bbb;
+	color: white !important;
 }
 .day.selected {
-	box-shadow: inset 1px 1px 0 #222, 
-							inset -1px -1px 0 #222;
+	border-color: #777;
+}
+.day.active {
+	color: #333;
+	cursor: pointer;
+}
+.day.active:hover {
+	border-color: #ddd;
+}
+.weekday {
+	font-size: 12px;
 }
 .day.day0,
 .weekday.weekday0 {
