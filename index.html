@@ -134,8 +134,17 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
         weekOpen<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="week week&lt;#weekNumber#&gt;"&gt;<span class="pl-pds">'</span></span>,
         weekClose<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>,
         month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month &lt;#monthNumber#&gt;"&gt;&lt;h4&gt;&lt;#monthName#&gt; &lt;#year#&gt;&lt;/h4&gt;&lt;#monthDays#&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>,
+        nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="nav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="yclPrev"&gt;&lt;span&gt;&lt;#prev#&gt;&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> <span class="pl-c">// class 'yclPrev' should stay</span>
+                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="yclNext"&gt;&lt;span&gt;&lt;#next#&gt;&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> <span class="pl-c">// class 'yclNext' should stay</span>
+                    <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
+        wrap<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="wrap"&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>
     }
 });</pre></div>
+
+<blockquote>
+<p>Note: in <code>nav</code> template, <code>yclPrev</code> and <code>yclNext</code> should stay within the <code>class</code> attributes of both nav links, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones.</p>
+</blockquote>
 
 <p>Example:</p>
 
@@ -145,6 +154,11 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
         day<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="day day&lt;#weekday#&gt;"&gt;&lt;strong&gt;&lt;#day#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span>,
         <span class="pl-c">// Simplifies the month header</span>
         month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month"&gt;&lt;h2&gt;&lt;#monthName#&gt;&lt;/h2&gt;&lt;#monthDays#&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>,
+        <span class="pl-c">// adds new classes ('myPrev' and 'myNext') to nav links, but always keeping the originals</span>
+        nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="nav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="yclPrev myPrev"&gt;&lt;strong&gt;&lt;#prev#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> 
+                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="yclNext myNext"&gt;&lt;strong&gt;&lt;#next#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+                    <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
     }
 });</pre></div>
 
@@ -223,6 +237,8 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
     i18n<span class="pl-k">:</span> {
         weekdays<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Su<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mo<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Tu<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>We<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Th<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Fr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sa<span class="pl-pds">'</span></span>],
         months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Jan<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Feb<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mar<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Apr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jun<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jul<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Aug<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sep<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Oct<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Nov<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Dec<span class="pl-pds">'</span></span>],
+        prev<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>prev<span class="pl-pds">'</span></span>, <span class="pl-c">// prev month</span>
+        next<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>next<span class="pl-pds">'</span></span>, <span class="pl-c">// next month</span>
     }
 });</pre></div>
 
@@ -247,7 +263,7 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 <a id="todos-and-ideas" class="anchor" href="#todos-and-ideas" aria-hidden="true"><span class="octicon octicon-link"></span></a>ToDos and ideas</h2>
 
 <ul>
-<li>Navigation (prev/next month/year)</li>
+<li>Timezone support</li>
 <li>Configurations: 
 
 <ul>
@@ -257,7 +273,7 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 </li>
 <li>Move I18n and Localization to a separate file. </li>
 <li>Bower support (do some testing)</li>
-<li>Timezone support</li>
+<li>Navigation (prev/next year) ?</li>
 </ul>
 
 <h2>
