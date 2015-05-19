@@ -182,6 +182,7 @@ $('.calendar').yacal({
 		months: ['January','February','Marz','April','May','June','July','August','September','October','November','December'],
 	}
 });
+```
 
 ## ToDos and ideas
 

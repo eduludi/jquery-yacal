@@ -99,7 +99,7 @@ Released under the MIT license
     out = ''
 
     # weekdays
-    if _opts.showWeekdays
+    if _opts.showWD
       wd = 0
       out += _tpl.weekOpen.replace(_ph.wn,wd)
       while wd <= 6
