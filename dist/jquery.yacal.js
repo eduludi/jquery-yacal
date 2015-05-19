@@ -162,14 +162,14 @@ Released under the MIT license
     maxDate: null,
     tpl: {
       day: '<a class="day day' + _ph.wd + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a + '" data-time="' + _ph.ts + '">' + _ph.d + '</a>',
-      weekday: '<i class="weekday weekday' + _ph.wdnum + '">' + _ph.wdnam + '</i>',
+      weekday: '<i class="wday wday' + _ph.wdnum + '">' + _ph.wdnam + '</i>',
       weekOpen: '<div class="week week' + _ph.wn + '">',
       weekClose: '</div>',
       month: '<div class="month month' + _ph.mnum + '">' + '<h4>' + _ph.mnam + ' ' + _ph.y + '</h4>' + _ph.md + '</div>'
     },
     i18n: {
       weekdays: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-      months: ['January', 'February', 'Marz', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
     }
   };
   $.fn.yacal.version = '0.1.1';

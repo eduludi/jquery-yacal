@@ -194,7 +194,7 @@ Released under the MIT license
       day: '<a class="day day'+_ph.wd+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a+'"
                data-time="'+_ph.ts+'">'+_ph.d+'</a>',
 
-      weekday: '<i class="weekday weekday'+_ph.wdnum+'">'+
+      weekday: '<i class="wday wday'+_ph.wdnum+'">'+
                 _ph.wdnam+
                 '</i>',
       weekOpen: '<div class="week week'+_ph.wn+'">',
@@ -206,8 +206,8 @@ Released under the MIT license
     },
     i18n: {
       weekdays: ['Su','Mo','Tu','We','Th','Fr','Sa'],
-      months: ['January','February','Marz','April','May','June',
-               'July','August','September','October','November','December'],
+      months: ['Jan','Feb','Mar','Apr','May','Jun',
+               'Jul','Aug','Sept','Oct','Nov','Dec'],
     }
   }
 

@@ -34,7 +34,7 @@ h3 {
 	border-color: lightgray;
 }
 .day,
-.weekday {
+.wday {
 	display: block;
 	width: 26px;
 	height: 22px;
@@ -64,35 +64,34 @@ h3 {
 .day.active:hover {
 	border-color: #ddd;
 }
-.weekday {
+.wday {
 	font-size: 12px;
 }
 .day.day0,
-.weekday.weekday0 {
+.wday.wday0 {
 	left: 0;
 }
 .day.day1,
-.weekday.weekday1 {
+.wday.wday1 {
 	left: 30px;
 }
 .day.day2,
-.weekday.weekday2 {
+.wday.wday2 {
 	left: 60px;
 }
 .day.day3,
-.weekday.weekday3 {
+.wday.wday3 {
 	left: 90px;
 }
 .day.day4,
-.weekday.weekday4 {
+.wday.wday4 {
 	left: 120px;
 }
 .day.day5,
-.weekday.weekday5 {
+.wday.wday5 {
 	left: 150px;
 }
 .day.day6,
-.weekday.weekday6 {
+.wday.wday6 {
 	left: 180px;
 }
-

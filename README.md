@@ -158,12 +158,12 @@ Defaults:
 $('.calendar').yacal({
 	i18n: {
 		weekdays: ['Su','Mo','Tu','We','Th','Fr','Sa'],
-		months: ['January','February','Marz','April','May','June','July','August','September','October','November','December'],
+		months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
 	}
 });
 ```
 
-Example:
+Examples:
 
 ```javascript
 $('.calendar').yacal({
@@ -175,13 +175,23 @@ $('.calendar').yacal({
 });
 ```
 
-## ToDos
+```javascript
+$('.calendar').yacal({
+	i18n: {
+		// English long months names
+		months: ['January','February','Marz','April','May','June','July','August','September','October','November','December'],
+	}
+});
+
+## ToDos and ideas
 
 * Navigation (prev/next month/year)
 * Configurations: 
 	* First day of the week
 	* Ideas?
-* Bower support (testing)
+* Move I18n and Localization to a separate file. 
+* Bower support (do some testing)
+* Timezone support
 
 ## Authors
 
