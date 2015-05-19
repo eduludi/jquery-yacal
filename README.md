@@ -161,6 +161,10 @@ The plugin provides several _placeholders_ for each template. These placeholders
 - `<#monthDays#>`: here is where month's days will be placed.
 - `<#monthNumber#>`: Month's number, form `0` to `11`
 
+##### Nav paceholders
+- `<#prev#>`: label for "prev" navigation link. It will depend on the i18n configurations under `tpl.prev`.
+- `<#next#>`: label for "next" navigation link. It will depend on the i18n configurations under `tpl.next`.
+
 ## I18n
 
 Defaults:
