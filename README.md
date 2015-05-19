@@ -100,9 +100,15 @@ $('.calendar').yacal({
 		weekOpen: '<div class="week week<#weekNumber#>">',
 		weekClose: '</div>',
 		month: '<div class="month <#monthNumber#>"><h4><#monthName#> <#year#></h4><#monthDays#></div>',
+		nav: '<div class="nav">'+
+						'<a class="yclPrev"><span><#prev#></span></a>'+ // class 'yclPrev' should stay
+						'<a class="yclNext"><span><#next#></span></a>'+ // class 'yclNext' should stay
+					'</div>'
+		wrap: '<div class="wrap"></div>'
 	}
 });
 ```
+> Note: in `nav` template, `yclPrev` and `yclNext` should stay within the `class` attributes of both nav links, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones.
 
 Example:
 
@@ -113,6 +119,11 @@ $('.calendar').yacal({
 		day: '<a class="day day<#weekday#>"><strong><#day#></strong></a>',
 		// Simplifies the month header
 		month: '<div class="month"><h2><#monthName#></h2><#monthDays#></div>',
+		// adds new classes ('myPrev' and 'myNext') to nav links, but always keeping the originals
+		nav: '<div class="nav">'+
+						'<a class="yclPrev myPrev"><strong><#prev#></strong></a>'+ 
+						'<a class="yclNext myNext"><strong><#next#></strong></a>'+
+					'</div>'
 	}
 });
 ```
@@ -159,6 +170,8 @@ $('.calendar').yacal({
 	i18n: {
 		weekdays: ['Su','Mo','Tu','We','Th','Fr','Sa'],
 		months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+		prev: 'prev', // prev month
+		next: 'next', // next month
 	}
 });
 ```
@@ -186,13 +199,13 @@ $('.calendar').yacal({
 
 ## ToDos and ideas
 
-* Navigation (prev/next month/year)
+* Timezone support
 * Configurations: 
 	* First day of the week
 	* Ideas?
 * Move I18n and Localization to a separate file. 
 * Bower support (do some testing)
-* Timezone support
+* Navigation (prev/next year) ?
 
 ## Authors
 
