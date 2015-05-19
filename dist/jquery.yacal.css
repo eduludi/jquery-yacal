@@ -15,6 +15,45 @@ h3 {
 	border: 1px solid lightgray;
 	border-radius: 2%;
 }
+
+.nav {
+	
+}
+.yclPrev,
+.yclNext {
+	position: absolute;
+	display: block;
+	top: 10px;
+	background-color: gray;
+	border-radius: 15px;
+	width: 20px;
+	height: 20px;
+}
+.yclPrev::before,
+.yclNext::after {
+	position: absolute;
+	color: white;
+	font-weight: bold;
+}
+.yclPrev span,
+.yclNext span {
+	display: none;
+}
+.yclPrev {
+	left: 10px;
+}
+.yclPrev::before {
+	content: '<';
+	left: 5px;
+}
+.yclNext {
+	right: 10px;
+}
+.yclNext:after {
+	content: '>';
+	right: 5px;
+}
+
 .month h4 {
 	text-align: center;
 	margin: 0;
