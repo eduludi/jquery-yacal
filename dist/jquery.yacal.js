@@ -14,8 +14,9 @@ Released under the MIT license
  */
 (function($, doc, win) {
   "use strict";
-  var _name, _ph, changeMonth, getDaysInMonth, getWeek, inRange, isDate, isLeapYear, isToday, isWeekend, tag, zeroHour;
+  var _msInDay, _name, _ph, changeMonth, getDaysInMonth, getWeekNumber, getWeekStartTime, inRange, isDate, isLeapYear, isToday, isWeekend, tag, zeroHour;
   _name = 'yacal';
+  _msInDay = 86400000;
   _ph = {
     d: '<#day#>',
     dt: '<#time#>',
@@ -70,10 +71,13 @@ Released under the MIT license
   getDaysInMonth = function(year, month) {
     return [31, (isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
   };
-  getWeek = function(date) {
+  getWeekNumber = function(date) {
     var onejan;
     onejan = new Date(date.getFullYear(), 0, 1);
-    return Math.ceil((((date - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+    return Math.ceil((((date - onejan) / _msInDay) + onejan.getDay() + 1) / 7);
+  };
+  getWeekStartTime = function(date) {
+    return new Date(date.getTime() - date.getDay() * _msInDay);
   };
   changeMonth = function(date, amount) {
     return new Date(date.getFullYear(), date.getMonth() + amount, 1);
@@ -92,9 +96,7 @@ Released under the MIT license
         return zeroHour(_s) === zeroHour(date);
       };
       isSelectedWeek = function(wStart) {
-        var wEnd;
-        wEnd = new Date(wStart.getTime() + (((7 - wStart.getDay()) * 86400000) - 1));
-        return inRange(_s, wStart, wEnd);
+        return inRange(_s, getWeekStartTime(wStart), new Date(wStart.getTime() + ((7 - wStart.getDay()) * _msInDay) - 1));
       };
       renderNav = function() {
         return _tpl.nav.replace(_ph.prev, _i18n.prev).replace(_ph.next, _i18n.next);
@@ -124,7 +126,7 @@ Released under the MIT license
         while (d < totalDays) {
           day = new Date(year, month, d + 1);
           if (0 === d || 0 === day.getDay()) {
-            out += _tpl.weekOpen.replace(_ph.w, getWeek(day)).replace(_ph.wt, day.getTime()).replace(_ph.ws, isSelectedWeek(day) ? ' selected' : '');
+            out += _tpl.weekOpen.replace(_ph.w, getWeekNumber(day)).replace(_ph.wt, getWeekStartTime(day)).replace(_ph.ws, isSelectedWeek(day) ? ' selected' : '');
           }
           out += renderDay(day, _tpl.day);
           if (d === totalDays - 1 || day.getDay() === 6) {

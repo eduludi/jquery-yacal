@@ -15,7 +15,7 @@ Released under the MIT license
   "use strict"
 
   _name = 'yacal'
-
+  _msInDay = 86400000
 
   # placeholders
   _ph = {
@@ -73,9 +73,12 @@ Released under the MIT license
     [31, (if isLeapYear(year) then 29 else 28),31,30,31,30,
      31,31,30,31,30,31][month]
 
-  getWeek = (date) ->
+  getWeekNumber = (date) ->
     onejan = new Date(date.getFullYear(), 0, 1)
-    Math.ceil((((date - onejan) / 86400000) + onejan.getDay() + 1) / 7)
+    Math.ceil((((date - onejan) / _msInDay) + onejan.getDay() + 1) / 7)
+
+  getWeekStartTime = (date) ->
+    new Date(date.getTime() - date.getDay()*_msInDay)
 
   changeMonth = (date,amount) ->
     new Date(date.getFullYear(),(date.getMonth() + amount),1)
@@ -101,8 +104,7 @@ Released under the MIT license
 
       # Instance Methods
       isSelectedWeek = (wStart) ->
-        wEnd = new Date(wStart.getTime() + (((7-wStart.getDay()) * 86400000) - 1))
-        inRange(_s,wStart,wEnd)
+        inRange(_s,getWeekStartTime(wStart),new Date(wStart.getTime()+((7-wStart.getDay())*_msInDay)-1))
 
       renderNav = () ->
         _tpl.nav.replace(_ph.prev,_i18n.prev)
@@ -142,8 +144,8 @@ Released under the MIT license
 
           if 0 in [d,day.getDay()]
             out += _tpl.weekOpen
-                    .replace(_ph.w, getWeek(day))
-                    .replace(_ph.wt, day.getTime())
+                    .replace(_ph.w, getWeekNumber(day))
+                    .replace(_ph.wt, getWeekStartTime(day))
                     .replace(_ph.ws, if isSelectedWeek(day) then ' selected' else '')
 
           out += renderDay(day,_tpl.day)
