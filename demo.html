@@ -8,14 +8,14 @@
 	<h1>yacal.js Demo</h1>
 
 	<h2>Using <code>data-*</code> attributes</h2>
-	<div class="yacal" data-date="2020/10/26" data-near-months="1" data-max-date="2020/10/1"></div>
+	<div class="yacal" data-date="2020/10/26" data-near-months="1" data-min-date="2020/4/17" data-max-date="2021/8/24"></div>
 	
 	<h2>Using Javascript</h2>
 	<h3>With Custom Template</h3>
 	<div id="calendarTemplate"></div>
 
 	<h3>Adding Nearest months and Range</h3>
-	<div id="calendarNear"></div>
+	<div id="calendarNear" data-date="2015/5/3"></div>
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
 	<script src="dist/jquery.yacal.js" type="text/javascript"></script>
@@ -28,8 +28,8 @@
 		});
 		$('#calendarNear').yacal({
 			date: '2000/1/1',
-			minDate: '1999/12/15',
-			maxDate: '2000/1/15',
+			minDate: '1999/11/11',
+			maxDate: '2000/2/9',
 			nearMonths: 2,
 		});
 

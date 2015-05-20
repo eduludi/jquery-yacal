@@ -2,7 +2,7 @@
 **Y**et **A**nother **Cal**endar plugin for jQuery.
 
 ## What is yacal?
-It is a lightweight (~2.5KB)  **jQuery calendar plugin**, easy to configure and use. 
+It is a lightweight (~3.5KB min / ~1.5kb gzip) **jQuery calendar plugin**, easy to configure and use. 
 It comes with a default template, but you can tune up at your taste. 
 Also supports some basic internationalization. 
 
@@ -23,10 +23,10 @@ Here is a **[Demo page](http://eduludi.github.io/jquery-yacal/demo.html)**
 
 
 ```html
-<!-- uncompressed (development) --> 
+<!-- uncompressed (~7.2kb, for development) --> 
 <script src="/path/to/jquery.yacal.js"></script>
 
-<!-- OR compressed (production) --> 
+<!-- OR compressed (~3.5kb, for production) --> 
 <script src="/path/to/jquery.yacal.min.js"></script>
 ```
 
@@ -62,7 +62,7 @@ options = {
 	showWeekdays: true,  // Toggles the week days ('Su','Mo','Tu',etc). Default is true
 	minDate: null,       // Sets the minimal date range (inclusive). For markup only. Default is null
 	maxDate: null,       // Sets the maximal date range (inclusive). For markup only. Default is null
-	firstDay: 0,         // Sets the first day of the week. Default is 0 (Sunday)
+	//firstDay: 0,       // Sets the first day of the week. Default is 0 (Sunday) (TODO)
 });
 
 $('#aDefaultCalendar').yacal(options);
@@ -100,15 +100,15 @@ $('.calendar').yacal({
 		weekOpen: '<div class="week week<#weekNumber#>">',
 		weekClose: '</div>',
 		month: '<div class="month <#monthNumber#>"><h4><#monthName#> <#year#></h4><#monthDays#></div>',
-		nav: '<div class="nav">'+
-						'<a class="yclPrev"><span><#prev#></span></a>'+ // class 'yclPrev' should stay
-						'<a class="yclNext"><span><#next#></span></a>'+ // class 'yclNext' should stay
+		nav: '<div class="yclNav">'+
+						'<a class="prev"><span><#prev#></span></a>'+
+						'<a class="pext"><span><#next#></span></a>'+
 					'</div>'
 		wrap: '<div class="wrap"></div>'
 	}
 });
 ```
-> Note: in `nav` template, `yclPrev` and `yclNext` should stay within the `class` attributes of both nav links, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones.
+> Note: in `nav` template, `yclNav`, `prev` and `next` should stay within the `class` attributes of both nav links and the `yclNav` wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones.
 
 Example:
 
@@ -119,10 +119,10 @@ $('.calendar').yacal({
 		day: '<a class="day day<#weekday#>"><strong><#day#></strong></a>',
 		// Simplifies the month header
 		month: '<div class="month"><h2><#monthName#></h2><#monthDays#></div>',
-		// adds new classes ('myPrev' and 'myNext') to nav links, but always keeping the originals
-		nav: '<div class="nav">'+
-						'<a class="yclPrev myPrev"><strong><#prev#></strong></a>'+ 
-						'<a class="yclNext myNext"><strong><#next#></strong></a>'+
+		// adds new classes ('myNav' and 'myNext'), but keeping the originals
+		nav: '<div class="nav myNav">'+
+						'<a class="prev"><strong><#prev#></strong></a>'+ 
+						'<a class="next myNext"><strong><#next#></strong></a>'+
 					'</div>'
 	}
 });
@@ -136,7 +136,7 @@ The plugin provides several _placeholders_ for each template. These placeholders
 
 - `<#day#>`: day's number in the month, from `1` to `31`
 - `<#weekday#>`: day's number in the week, from `0` to `6`
-- `<#timestamp#>`: day's timestamp 
+- `<#time#>`: day's timestamp 
 - `<#weekend#>`: returns 'weekend' if day is Sunday or Saturday
 - `<#today#>`: returns 'today' if is today 
 - `<#selected#>`: returns 'selected' if day the selected one
@@ -148,7 +148,9 @@ The plugin provides several _placeholders_ for each template. These placeholders
 
 ##### Week Open's placeholders
 
-- `<#weekNumber#>`: week's number in the year
+- `<#week#>`: week's number in the year
+- `<#weekTime#>`: week's timestamp (millisecons since January 1st, 1970)
+- `<#weekSelected#>`: returns 'selected' if the selected date is in this week.
 
 ##### Week Close's placeholders
 
@@ -162,6 +164,7 @@ The plugin provides several _placeholders_ for each template. These placeholders
 - `<#monthNumber#>`: Month's number, form `0` to `11`
 
 ##### Nav paceholders
+
 - `<#prev#>`: label for "prev" navigation link. It will depend on the i18n configurations under `tpl.prev`.
 - `<#next#>`: label for "next" navigation link. It will depend on the i18n configurations under `tpl.next`.
 

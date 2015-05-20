@@ -19,13 +19,15 @@ Released under the MIT license
 
   # placeholders
   _ph = {
-    ts: '<#timestamp#>'
     d: '<#day#>'
+    dt: '<#time#>'
     we: '<#weekend#>'
     t: '<#today#>'
     s: '<#selected#>'
     a: '<#active#>'
-    wn: '<#weekNumber#>'
+    w: '<#week#>'
+    ws: '<#weekSelected#>'
+    wt: '<#weekTime#>'
     wd: '<#weekday#>'
     wdnam: '<#weekdayName#>'
     wdnum: '<#weekdayNumber#>'
@@ -78,6 +80,11 @@ Released under the MIT license
   changeMonth = (date,amount) ->
     new Date(date.getFullYear(),(date.getMonth() + amount),1)
 
+  tag = (name,classes,content,data) ->
+    '<'+name+' '+ (if classes then ' class="'+classes+'" ' else '')+
+                  (if data then 'data-'+data else '')+'>'+
+                  (if content then content+'</'+name+'>' else '')
+
   # Plugin definition
   $.fn.yacal = ( options ) ->
 
@@ -86,23 +93,28 @@ Released under the MIT license
       _d = _s = null
       _tpl = {}
       _i18n = {}
-      _opts = {}
+      _nearMonths = _showWD = _minDate = _maxDate = _firstDay = null
 
       # Instance Methods
       isSelected = (date) ->
         zeroHour(_s) == zeroHour(date)
+
+      # Instance Methods
+      isSelectedWeek = (wStart) ->
+        wEnd = new Date(wStart.getTime() + (((7-wStart.getDay()) * 86400000) - 1))
+        inRange(_s,wStart,wEnd)
 
       renderNav = () ->
         _tpl.nav.replace(_ph.prev,_i18n.prev)
                 .replace(_ph.next,_i18n.next)
 
       renderDay = (date) ->
-        _tpl.day.replace(_ph.ts, date.getTime())
-                .replace(_ph.d, date.getDate())
+        _tpl.day.replace(_ph.d, date.getDate())
+                .replace(_ph.dt, date.getTime())
                 .replace(_ph.we, if isWeekend(date) then ' weekend' else '')
                 .replace(_ph.t, if isToday(date) then ' today' else '')
                 .replace(_ph.s, if isSelected(date) then ' selected' else '')
-                .replace(_ph.a, if inRange(date,_opts.minDate,_opts.maxDate) then ' active' else '')
+                .replace(_ph.a, if inRange(date,_minDate,_maxDate) then ' active' else '')
                 .replace(_ph.wd, date.getDay())
       
       renderMonth = (date,nav=false) ->
@@ -110,24 +122,29 @@ Released under the MIT license
         month = date.getMonth()
         year = date.getFullYear()
         out = ''
+        d = 0
 
         # weekdays
-        if _opts.showWD
+        if _showWD
           wd = 0
-          out += _tpl.weekOpen.replace(_ph.wn,wd)
+          out += _tpl.weekOpen.replace(_ph.w,wd)
+                              .replace(_ph.wt,'')
+                              .replace(_ph.ws,'')
           while wd <= 6
             out += _tpl.weekday.replace(_ph.wdnam,_i18n.weekdays[wd])
-                                .replace(_ph.wdnum,wd)
+                              .replace(_ph.wdnum,wd)
             wd++
           out += _tpl.weekClose;
 
-        # month days
-        d = 0
+        # month weeks and days
         while d < totalDays
           day = new Date(year,month,d+1)
 
           if 0 in [d,day.getDay()]
-            out += _tpl.weekOpen.replace(_ph.wn,getWeek(day))
+            out += _tpl.weekOpen
+                    .replace(_ph.w, getWeek(day))
+                    .replace(_ph.wt, day.getTime())
+                    .replace(_ph.ws, if isSelectedWeek(day) then ' selected' else '')
 
           out += renderDay(day,_tpl.day)
           
@@ -146,8 +163,8 @@ Released under the MIT license
       renderCalendar = (element) ->
         out = ''
         # Render previous month[s]
-        if _opts.nearMonths
-          pm = _opts.nearMonths
+        if _nearMonths
+          pm = _nearMonths
           while pm > 0
             out += renderMonth(changeMonth(_d,-pm))
             pm--
@@ -156,9 +173,9 @@ Released under the MIT license
         out += renderMonth(_d,true);
 
         # Render next[s] month[s]
-        if _opts.nearMonths
+        if _nearMonths
           nm = 1
-          while nm <= _opts.nearMonths
+          while nm <= _nearMonths
             out += renderMonth(changeMonth(_d,+nm))
             nm++
 
@@ -184,13 +201,11 @@ Released under the MIT license
       _d = _s = new Date(opts.date) # Ensures get a date
       _tpl = opts.tpl
       _i18n = opts.i18n
-      _opts = {
-        nearMonths: parseInt(opts.nearMonths),
-        showWD: !!opts.showWeekdays,
-        minDate: new Date(opts.minDate) if opts.minDate,
-        maxDate: new Date(opts.maxDate) if opts.maxDate,
-        firstDay: parseInt(opts.firstDay),
-      }
+      _nearMonths = parseInt(opts.nearMonths)
+      _showWD = !!opts.showWeekdays
+      _minDate = new Date(opts.minDate) if opts.minDate
+      _maxDate = new Date(opts.maxDate) if opts.maxDate
+      _firstDay = parseInt(opts.firstDay) # TODO
 
       renderCalendar(this)
     )
@@ -199,28 +214,22 @@ Released under the MIT license
   $.fn.yacal.defaults = {
     date: new Date(),
     nearMonths: 0,
-    showWeekdays: true,
-    mimDate: null,
+    showWeekdays: 1,
+    minDate: null,
     maxDate: null,
     tpl: {
-      day: '<a class="day day'+_ph.wd+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a+'"
-               data-time="'+_ph.ts+'">'+_ph.d+'</a>',
-      weekday: '<i class="wday wday'+_ph.wdnum+'">'+
-                _ph.wdnam+
-                '</i>',
-      weekOpen: '<div class="week week'+_ph.wn+'">',
-      weekClose: '</div>',
-      month: '<div class="month month'+_ph.mnum+'">'+
-               _ph.nav+
-               '<h4>'+_ph.mnam+' '+_ph.y+'</h4>'+
-               _ph.md+
-             '</div>',
-      nav: '<div class="nav">'+
-              '<a class="yclPrev"><span>'+_ph.prev+'</span></a>'+
-              '<a class="yclNext"><span>'+_ph.next+'</span></a>'+
-           '</div>'
-      wrap: '<div class="wrap"></div>'
-    },
+      day: tag('a','day day'+_ph.wd+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a,
+              _ph.d,'time="'+_ph.dt+'"')
+      weekday: tag('i','wday wday'+_ph.wdnum,_ph.wdnam)
+      weekOpen: tag('div','week week'+_ph.w+_ph.ws,null,'time="'+_ph.wt+'"')
+      weekClose: '</div>'
+      month: tag('div','month month'+_ph.mnum,
+               _ph.nav + tag('h4',null,_ph.mnam+' '+_ph.y) + _ph.md)
+      nav: tag('div','nav',
+              tag('a','yclPrev',tag('span',null,_ph.prev))+
+              tag('a','yclNext',tag('span',null,_ph.next)) )
+      wrap: tag('div','wrap')
+    }
     i18n: {
       weekdays: ['Su','Mo','Tu','We','Th','Fr','Sa'],
       months: ['Jan','Feb','Mar','Apr','May','Jun',
