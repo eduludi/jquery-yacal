@@ -14,16 +14,18 @@ Released under the MIT license
  */
 (function($, doc, win) {
   "use strict";
-  var _name, _ph, changeMonth, getDaysInMonth, getWeek, inRange, isDate, isLeapYear, isToday, isWeekend, zeroHour;
+  var _name, _ph, changeMonth, getDaysInMonth, getWeek, inRange, isDate, isLeapYear, isToday, isWeekend, tag, zeroHour;
   _name = 'yacal';
   _ph = {
-    ts: '<#timestamp#>',
     d: '<#day#>',
+    dt: '<#time#>',
     we: '<#weekend#>',
     t: '<#today#>',
     s: '<#selected#>',
     a: '<#active#>',
-    wn: '<#weekNumber#>',
+    w: '<#week#>',
+    ws: '<#weekSelected#>',
+    wt: '<#weekTime#>',
     wd: '<#weekday#>',
     wdnam: '<#weekdayName#>',
     wdnum: '<#weekdayNumber#>',
@@ -76,21 +78,29 @@ Released under the MIT license
   changeMonth = function(date, amount) {
     return new Date(date.getFullYear(), date.getMonth() + amount, 1);
   };
+  tag = function(name, classes, content, data) {
+    return '<' + name + ' ' + (classes ? ' class="' + classes + '" ' : '') + (data ? 'data-' + data : '') + '>' + (content ? content + '</' + name + '>' : '');
+  };
   $.fn.yacal = function(options) {
     return this.each(function(index) {
-      var _d, _i18n, _opts, _s, _tpl, isSelected, opts, renderCalendar, renderDay, renderMonth, renderNav;
+      var _d, _firstDay, _i18n, _maxDate, _minDate, _nearMonths, _s, _showWD, _tpl, isSelected, isSelectedWeek, opts, renderCalendar, renderDay, renderMonth, renderNav;
       _d = _s = null;
       _tpl = {};
       _i18n = {};
-      _opts = {};
+      _nearMonths = _showWD = _minDate = _maxDate = _firstDay = null;
       isSelected = function(date) {
         return zeroHour(_s) === zeroHour(date);
+      };
+      isSelectedWeek = function(wStart) {
+        var wEnd;
+        wEnd = new Date(wStart.getTime() + (((7 - wStart.getDay()) * 86400000) - 1));
+        return inRange(_s, wStart, wEnd);
       };
       renderNav = function() {
         return _tpl.nav.replace(_ph.prev, _i18n.prev).replace(_ph.next, _i18n.next);
       };
       renderDay = function(date) {
-        return _tpl.day.replace(_ph.ts, date.getTime()).replace(_ph.d, date.getDate()).replace(_ph.we, isWeekend(date) ? ' weekend' : '').replace(_ph.t, isToday(date) ? ' today' : '').replace(_ph.s, isSelected(date) ? ' selected' : '').replace(_ph.a, inRange(date, _opts.minDate, _opts.maxDate) ? ' active' : '').replace(_ph.wd, date.getDay());
+        return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, date.getTime()).replace(_ph.we, isWeekend(date) ? ' weekend' : '').replace(_ph.t, isToday(date) ? ' today' : '').replace(_ph.s, isSelected(date) ? ' selected' : '').replace(_ph.a, inRange(date, _minDate, _maxDate) ? ' active' : '').replace(_ph.wd, date.getDay());
       };
       renderMonth = function(date, nav) {
         var d, day, month, out, totalDays, wd, year;
@@ -101,20 +111,20 @@ Released under the MIT license
         month = date.getMonth();
         year = date.getFullYear();
         out = '';
-        if (_opts.showWD) {
+        d = 0;
+        if (_showWD) {
           wd = 0;
-          out += _tpl.weekOpen.replace(_ph.wn, wd);
+          out += _tpl.weekOpen.replace(_ph.w, wd).replace(_ph.wt, '').replace(_ph.ws, '');
           while (wd <= 6) {
             out += _tpl.weekday.replace(_ph.wdnam, _i18n.weekdays[wd]).replace(_ph.wdnum, wd);
             wd++;
           }
           out += _tpl.weekClose;
         }
-        d = 0;
         while (d < totalDays) {
           day = new Date(year, month, d + 1);
           if (0 === d || 0 === day.getDay()) {
-            out += _tpl.weekOpen.replace(_ph.wn, getWeek(day));
+            out += _tpl.weekOpen.replace(_ph.w, getWeek(day)).replace(_ph.wt, day.getTime()).replace(_ph.ws, isSelectedWeek(day) ? ' selected' : '');
           }
           out += renderDay(day, _tpl.day);
           if (d === totalDays - 1 || day.getDay() === 6) {
@@ -127,17 +137,17 @@ Released under the MIT license
       renderCalendar = function(element) {
         var nm, out, pm;
         out = '';
-        if (_opts.nearMonths) {
-          pm = _opts.nearMonths;
+        if (_nearMonths) {
+          pm = _nearMonths;
           while (pm > 0) {
             out += renderMonth(changeMonth(_d, -pm));
             pm--;
           }
         }
         out += renderMonth(_d, true);
-        if (_opts.nearMonths) {
+        if (_nearMonths) {
           nm = 1;
-          while (nm <= _opts.nearMonths) {
+          while (nm <= _nearMonths) {
             out += renderMonth(changeMonth(_d, +nm));
             nm++;
           }
@@ -160,30 +170,32 @@ Released under the MIT license
       _d = _s = new Date(opts.date);
       _tpl = opts.tpl;
       _i18n = opts.i18n;
-      _opts = {
-        nearMonths: parseInt(opts.nearMonths),
-        showWD: !!opts.showWeekdays,
-        minDate: opts.minDate ? new Date(opts.minDate) : void 0,
-        maxDate: opts.maxDate ? new Date(opts.maxDate) : void 0,
-        firstDay: parseInt(opts.firstDay)
-      };
+      _nearMonths = parseInt(opts.nearMonths);
+      _showWD = !!opts.showWeekdays;
+      if (opts.minDate) {
+        _minDate = new Date(opts.minDate);
+      }
+      if (opts.maxDate) {
+        _maxDate = new Date(opts.maxDate);
+      }
+      _firstDay = parseInt(opts.firstDay);
       return renderCalendar(this);
     });
   };
   $.fn.yacal.defaults = {
     date: new Date(),
     nearMonths: 0,
-    showWeekdays: true,
-    mimDate: null,
+    showWeekdays: 1,
+    minDate: null,
     maxDate: null,
     tpl: {
-      day: '<a class="day day' + _ph.wd + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a + '" data-time="' + _ph.ts + '">' + _ph.d + '</a>',
-      weekday: '<i class="wday wday' + _ph.wdnum + '">' + _ph.wdnam + '</i>',
-      weekOpen: '<div class="week week' + _ph.wn + '">',
+      day: tag('a', 'day day' + _ph.wd + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a, _ph.d, 'time="' + _ph.dt + '"'),
+      weekday: tag('i', 'wday wday' + _ph.wdnum, _ph.wdnam),
+      weekOpen: tag('div', 'week week' + _ph.w + _ph.ws, null, 'time="' + _ph.wt + '"'),
       weekClose: '</div>',
-      month: '<div class="month month' + _ph.mnum + '">' + _ph.nav + '<h4>' + _ph.mnam + ' ' + _ph.y + '</h4>' + _ph.md + '</div>',
-      nav: '<div class="nav">' + '<a class="yclPrev"><span>' + _ph.prev + '</span></a>' + '<a class="yclNext"><span>' + _ph.next + '</span></a>' + '</div>',
-      wrap: '<div class="wrap"></div>'
+      month: tag('div', 'month month' + _ph.mnum, _ph.nav + tag('h4', null, _ph.mnam + ' ' + _ph.y) + _ph.md),
+      nav: tag('div', 'nav', tag('a', 'yclPrev', tag('span', null, _ph.prev)) + tag('a', 'yclNext', tag('span', null, _ph.next))),
+      wrap: tag('div', 'wrap')
     },
     i18n: {
       weekdays: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
