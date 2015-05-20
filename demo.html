@@ -14,6 +14,9 @@
 	<h3>With Custom Template</h3>
 	<div id="calendarTemplate"></div>
 
+	<h3>Using i18n: Spanish version</h3>
+	<div id="calendario" data-date="2015/5/3"></div>
+
 	<h3>Adding Nearest months and Range</h3>
 	<div id="calendarNear" data-date="2015/5/3"></div>
 
@@ -31,6 +34,14 @@
 			minDate: '1999/11/11',
 			maxDate: '2000/2/9',
 			nearMonths: 2,
+		});
+
+		// Spanish version
+		$('#calendario').yacal({
+			i18n: {
+				weekdays: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
+				months: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+			}
 		});
 
 		$('.day.active').on('click',function (event) {

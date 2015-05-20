@@ -184,10 +184,11 @@ Released under the MIT license
         $(element).append($(_tpl.wrap).append(out))
 
         # Navigation Events
-        $(element).find('.yclPrev').on 'click', ->
+        nav = $(element).find('.yclNav')
+        nav.find('.prev').on 'click', ->
           _d = changeMonth(_d,-1)
           renderCalendar($(element))
-        $(element).find('.yclNext').on 'click', ->
+        nav.find('.next').on 'click', ->
           _d = changeMonth(_d,+1)
           renderCalendar($(element))
 
@@ -225,9 +226,9 @@ Released under the MIT license
       weekClose: '</div>'
       month: tag('div','month month'+_ph.mnum,
                _ph.nav + tag('h4',null,_ph.mnam+' '+_ph.y) + _ph.md)
-      nav: tag('div','nav',
-              tag('a','yclPrev',tag('span',null,_ph.prev))+
-              tag('a','yclNext',tag('span',null,_ph.next)) )
+      nav: tag('div','yclNav',
+              tag('a','prev',tag('span',null,_ph.prev))+
+              tag('a','next',tag('span',null,_ph.next)) )
       wrap: tag('div','wrap')
     }
     i18n: {

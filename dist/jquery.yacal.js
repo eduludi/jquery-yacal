@@ -135,7 +135,7 @@ Released under the MIT license
         return _tpl.month.replace(_ph.mnum, month).replace(_ph.mnam, _i18n.months[month]).replace(_ph.nav, nav ? renderNav() : '').replace(_ph.y, year).replace(_ph.md, out);
       };
       renderCalendar = function(element) {
-        var nm, out, pm;
+        var nav, nm, out, pm;
         out = '';
         if (_nearMonths) {
           pm = _nearMonths;
@@ -154,11 +154,12 @@ Released under the MIT license
         }
         $(element).html('');
         $(element).append($(_tpl.wrap).append(out));
-        $(element).find('.yclPrev').on('click', function() {
+        nav = $(element).find('.yclNav');
+        nav.find('.prev').on('click', function() {
           _d = changeMonth(_d, -1);
           return renderCalendar($(element));
         });
-        return $(element).find('.yclNext').on('click', function() {
+        return nav.find('.next').on('click', function() {
           _d = changeMonth(_d, +1);
           return renderCalendar($(element));
         });
@@ -194,7 +195,7 @@ Released under the MIT license
       weekOpen: tag('div', 'week week' + _ph.w + _ph.ws, null, 'time="' + _ph.wt + '"'),
       weekClose: '</div>',
       month: tag('div', 'month month' + _ph.mnum, _ph.nav + tag('h4', null, _ph.mnam + ' ' + _ph.y) + _ph.md),
-      nav: tag('div', 'nav', tag('a', 'yclPrev', tag('span', null, _ph.prev)) + tag('a', 'yclNext', tag('span', null, _ph.next))),
+      nav: tag('div', 'yclNav', tag('a', 'prev', tag('span', null, _ph.prev)) + tag('a', 'next', tag('span', null, _ph.next))),
       wrap: tag('div', 'wrap')
     },
     i18n: {
