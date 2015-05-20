@@ -36,7 +36,7 @@
 <h2>
 <a id="what-is-yacal" class="anchor" href="#what-is-yacal" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is yacal?</h2>
 
-<p>It is a lightweight (~2.5KB)  <strong>jQuery calendar plugin</strong>, easy to configure and use. 
+<p>It is a lightweight (~3.5KB min / ~1.5kb gzip) <strong>jQuery calendar plugin</strong>, easy to configure and use. 
 It comes with a default template, but you can tune up at your taste. 
 Also supports some basic internationalization. </p>
 
@@ -61,10 +61,10 @@ So, do whatever you whant with it. </p>
 
 <p><strong>yacal</strong> only requires <a href="http://jquery.com">jQuery</a> (&gt;= v1.8.x) as dependency. So, just include the script <em>after</em> the jQuery library (unless you are packaging scripts somehow else):</p>
 
-<div class="highlight highlight-html"><pre><span class="pl-c">&lt;!-- uncompressed (development) --&gt;</span> 
+<div class="highlight highlight-html"><pre><span class="pl-c">&lt;!-- uncompressed (~7.2kb, for development) --&gt;</span> 
 &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>/path/to/jquery.yacal.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
 
-<span class="pl-c">&lt;!-- OR compressed (production) --&gt;</span> 
+<span class="pl-c">&lt;!-- OR compressed (~3.5kb, for production) --&gt;</span> 
 &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>/path/to/jquery.yacal.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
 
 <blockquote>
@@ -98,7 +98,7 @@ So, do whatever you whant with it. </p>
     showWeekdays<span class="pl-k">:</span> <span class="pl-c1">true</span>,  <span class="pl-c">// Toggles the week days ('Su','Mo','Tu',etc). Default is true</span>
     minDate<span class="pl-k">:</span> <span class="pl-c1">null</span>,       <span class="pl-c">// Sets the minimal date range (inclusive). For markup only. Default is null</span>
     maxDate<span class="pl-k">:</span> <span class="pl-c1">null</span>,       <span class="pl-c">// Sets the maximal date range (inclusive). For markup only. Default is null</span>
-    firstDay<span class="pl-k">:</span> <span class="pl-c1">0</span>,         <span class="pl-c">// Sets the first day of the week. Default is 0 (Sunday)</span>
+    <span class="pl-c">//firstDay: 0,       // Sets the first day of the week. Default is 0 (Sunday) (TODO)</span>
 });
 
 $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="pl-pds">'</span></span>).yacal(options);</pre></div>
@@ -134,16 +134,16 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
         weekOpen<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="week week&lt;#weekNumber#&gt;"&gt;<span class="pl-pds">'</span></span>,
         weekClose<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>,
         month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month &lt;#monthNumber#&gt;"&gt;&lt;h4&gt;&lt;#monthName#&gt; &lt;#year#&gt;&lt;/h4&gt;&lt;#monthDays#&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>,
-        nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="nav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
-                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="yclPrev"&gt;&lt;span&gt;&lt;#prev#&gt;&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> <span class="pl-c">// class 'yclPrev' should stay</span>
-                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="yclNext"&gt;&lt;span&gt;&lt;#next#&gt;&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> <span class="pl-c">// class 'yclNext' should stay</span>
+        nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="yclNav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="prev"&gt;&lt;span&gt;&lt;#prev#&gt;&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="pext"&gt;&lt;span&gt;&lt;#next#&gt;&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
                     <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
         wrap<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="wrap"&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>
     }
 });</pre></div>
 
 <blockquote>
-<p>Note: in <code>nav</code> template, <code>yclPrev</code> and <code>yclNext</code> should stay within the <code>class</code> attributes of both nav links, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones.</p>
+<p>Note: in <code>nav</code> template, <code>yclNav</code>, <code>prev</code> and <code>next</code> should stay within the <code>class</code> attributes of both nav links and the <code>yclNav</code> wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones.</p>
 </blockquote>
 
 <p>Example:</p>
@@ -154,10 +154,10 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
         day<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="day day&lt;#weekday#&gt;"&gt;&lt;strong&gt;&lt;#day#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span>,
         <span class="pl-c">// Simplifies the month header</span>
         month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month"&gt;&lt;h2&gt;&lt;#monthName#&gt;&lt;/h2&gt;&lt;#monthDays#&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>,
-        <span class="pl-c">// adds new classes ('myPrev' and 'myNext') to nav links, but always keeping the originals</span>
-        nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="nav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
-                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="yclPrev myPrev"&gt;&lt;strong&gt;&lt;#prev#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> 
-                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="yclNext myNext"&gt;&lt;strong&gt;&lt;#next#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+        <span class="pl-c">// adds new classes ('myNav' and 'myNext'), but keeping the originals</span>
+        nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="nav myNav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="prev"&gt;&lt;strong&gt;&lt;#prev#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> 
+                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="next myNext"&gt;&lt;strong&gt;&lt;#next#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
                     <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
     }
 });</pre></div>
@@ -178,7 +178,7 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 <code>&lt;#weekday#&gt;</code>: day's number in the week, from <code>0</code> to <code>6</code>
 </li>
 <li>
-<code>&lt;#timestamp#&gt;</code>: day's timestamp </li>
+<code>&lt;#time#&gt;</code>: day's timestamp </li>
 <li>
 <code>&lt;#weekend#&gt;</code>: returns 'weekend' if day is Sunday or Saturday</li>
 <li>
@@ -203,7 +203,11 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <ul>
 <li>
-<code>&lt;#weekNumber#&gt;</code>: week's number in the year</li>
+<code>&lt;#week#&gt;</code>: week's number in the year</li>
+<li>
+<code>&lt;#weekTime#&gt;</code>: week's timestamp (millisecons since January 1st, 1970)</li>
+<li>
+<code>&lt;#weekSelected#&gt;</code>: returns 'selected' if the selected date is in this week.</li>
 </ul>
 
 <h5>
