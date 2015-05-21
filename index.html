@@ -1,34 +1,25 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>jQuery yacal by eduludi</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>jQuery yacal</h1>
-        <p>Yet Another Calendar plugin for jQuery</p>
+    <section class="page-header">
+      <h1 class="project-name">jQuery yacal</h1>
+      <h2 class="project-tagline">Yet Another Calendar plugin for jQuery</h2>
+      <a href="https://github.com/eduludi/jquery-yacal" class="btn">View on GitHub</a>
+      <a href="https://github.com/eduludi/jquery-yacal/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/eduludi/jquery-yacal/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <p class="view"><a href="https://github.com/eduludi/jquery-yacal">View the Project on GitHub <small>eduludi/jquery-yacal</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/eduludi/jquery-yacal/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/eduludi/jquery-yacal/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/eduludi/jquery-yacal">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
+    <section class="main-content">
+      <h1>
 <a id="jquery-yacal" class="anchor" href="#jquery-yacal" aria-hidden="true"><span class="octicon octicon-link"></span></a>jQuery yacal</h1>
 
 <p><strong>Y</strong>et <strong>A</strong>nother <strong>Cal</strong>endar plugin for jQuery.</p>
@@ -36,12 +27,9 @@
 <h2>
 <a id="what-is-yacal" class="anchor" href="#what-is-yacal" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is yacal?</h2>
 
-<p>It is a lightweight (~3.5KB min / ~1.5kb gzip) <strong>jQuery calendar plugin</strong>, easy to configure and use. 
-It comes with a default template, but you can tune up at your taste. 
-Also supports some basic internationalization. </p>
+<p>Yacal is a lightweight (~3.5KB min / ~1.5kb gzip) <strong>jQuery calendar plugin</strong>, easy to configure and use. It comes with a default template, but you can tune up at your taste, and it also supports some basic internationalization. </p>
 
-<p>The main idea behind yacal is getting a basic calendar DOM structure that you can use as you please. 
-So, do whatever you whant with it. </p>
+<p>The main idea behind yacal is getting a basic calendar DOM structure that you can use as you please. So, do whatever you want with it. </p>
 
 <h2>
 <a id="what-is-not" class="anchor" href="#what-is-not" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is not?</h2>
@@ -114,77 +102,88 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 <p>In yacal is possible to configure the resulting output. The plugin provides access to all the templates used in the rendering. Just keep in mind that every month has this structure:</p>
 
 <div class="highlight highlight-html"><pre><span class="pl-c">&lt;!-- pseudo-html --&gt;</span>
-&lt;<span class="pl-ent">month</span>&gt;
-    &lt;<span class="pl-ent">monthTitle</span>/&gt;
-    &lt;<span class="pl-ent">weeksdays</span>/&gt;
-    &lt;<span class="pl-ent">weekOpen</span> /&gt;
-        &lt;<span class="pl-ent">day</span> /&gt; 
-        &lt;<span class="pl-ent">day</span> /&gt; 
+&lt;<span class="pl-ent">wrap</span>&gt;
+    &lt;<span class="pl-ent">nav</span>/&gt;
+    &lt;<span class="pl-ent">month</span>&gt;
+        &lt;<span class="pl-ent">monthTitle</span>/&gt;
+        &lt;<span class="pl-ent">weeksdays</span>/&gt;
+        &lt;<span class="pl-ent">week</span>&gt;
+            &lt;<span class="pl-ent">day</span> /&gt; 
+            &lt;<span class="pl-ent">day</span> /&gt; 
+            ...
+        &lt;<span class="pl-ent">week</span>/&gt;
         ...
-    &lt;<span class="pl-ent">weekClose</span>/&gt;
+    &lt;/<span class="pl-ent">month</span>&gt;
     ...
-&lt;/<span class="pl-ent">month</span>&gt;</pre></div>
+    &lt;<span class="pl-ent">clearfix</span>/&gt;
+&lt;/<span class="pl-ent">wrap</span>&gt;</pre></div>
 
 <p>Default templates:</p>
 
 <div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
-    tpl<span class="pl-k">:</span> { 
-        day<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="day day&lt;#weekday#&gt;&lt;#weekend#&gt;&lt;#today#&gt;&lt;#selected#&gt;" href="#&lt;#timestamp#&gt;"&gt;&lt;#day#&gt;&lt;/a&gt;<span class="pl-pds">'</span></span>,
-        weekday<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;small class="weekday weekday&lt;#weekdayNumber#&gt;"&gt;&lt;#weekdayName#&gt;&lt;/small&gt;<span class="pl-pds">'</span></span>,
-        weekOpen<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="week week&lt;#weekNumber#&gt;"&gt;<span class="pl-pds">'</span></span>,
-        weekClose<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>,
-        month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month &lt;#monthNumber#&gt;"&gt;&lt;h4&gt;&lt;#monthName#&gt; &lt;#year#&gt;&lt;/h4&gt;&lt;#monthDays#&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>,
-        nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="yclNav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
-                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="prev"&gt;&lt;span&gt;&lt;#prev#&gt;&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
-                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="pext"&gt;&lt;span&gt;&lt;#next#&gt;&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
-                    <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
-        wrap<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="wrap"&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>
-    }
+  tpl<span class="pl-k">:</span> { 
+    day<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="day d#weekday##weekend##today##selected#" href="##timestamp#"&gt;#day#&lt;/a&gt;<span class="pl-pds">'</span></span>,
+    weekday<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;i class="weekday wd#weekday#"&gt;#weekdayName#&lt;/i&gt;<span class="pl-pds">'</span></span>,
+    week<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="week week#week##weekSelected#" data-time="#weekTime#"&gt;|&lt;/div&gt;<span class="pl-pds">'</span></span>,
+    month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month #monthNumber#"&gt;&lt;h4&gt;#monthName# #year#&lt;/h4&gt;|&lt;/div&gt;<span class="pl-pds">'</span></span>,
+    nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="yclNav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+           <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="prev"&gt;&lt;span&gt;#prev#&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+           <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="pext"&gt;&lt;span&gt;#next#&lt;/span&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+         <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
+    wrap<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="wrap"&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>
+    clearfix<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="clearfix"&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>
+  }
 });</pre></div>
 
 <blockquote>
-<p>Note: in <code>nav</code> template, <code>yclNav</code>, <code>prev</code> and <code>next</code> should stay within the <code>class</code> attributes of both nav links and the <code>yclNav</code> wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones.</p>
-</blockquote>
-
-<p>Example:</p>
+<p><strong>Note A</strong>: in <code>nav</code>'s template, <code>yclNav</code>, <code>prev</code> and <code>next</code> should stay within the <code>class</code> attributes of both nav links and the <code>yclNav</code> wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones. Example:</p>
 
 <div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
-    tpl<span class="pl-k">:</span> { 
-        <span class="pl-c">// Adds a strong wrapping the day and remove day's taggings (today, selected, etc)</span>
-        day<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="day day&lt;#weekday#&gt;"&gt;&lt;strong&gt;&lt;#day#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span>,
-        <span class="pl-c">// Simplifies the month header</span>
-        month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month"&gt;&lt;h2&gt;&lt;#monthName#&gt;&lt;/h2&gt;&lt;#monthDays#&gt;&lt;/div&gt;<span class="pl-pds">'</span></span>,
-        <span class="pl-c">// adds new classes ('myNav' and 'myNext'), but keeping the originals</span>
-        nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="nav myNav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
-                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="prev"&gt;&lt;strong&gt;&lt;#prev#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> 
-                        <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="next myNext"&gt;&lt;strong&gt;&lt;#next#&gt;&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
-                    <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
-    }
+  tpl<span class="pl-k">:</span> {
+    <span class="pl-c">// adds new classes ('myNav' and 'myNext'), </span>
+    <span class="pl-c">// but keeping the originals (`yclNav`, `prev` and `next`)</span>
+    nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="yclNav myNav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+           <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="prev"&gt;&lt;strong&gt;#prev#&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> 
+           <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="next myNext"&gt;&lt;strong&gt;#next#&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+         <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
+  }
 });</pre></div>
+
+<p><strong>Note B</strong>: in <code>week</code>'s and <code>month</code>'s templates, there are pipe characters, <code>|</code>, that are also required. Is there where week's days will be placed. Example:</p>
+
+<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
+  tpl<span class="pl-k">:</span> {
+    <span class="pl-c">// Don't render weeks</span>
+    week<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>|<span class="pl-pds">'</span></span>,
+    <span class="pl-c">// Simplifies the month header</span>
+    month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month"&gt;&lt;h2&gt;#monthName#&lt;/h2&gt;|&lt;/div&gt;<span class="pl-pds">'</span></span>,
+  }
+});</pre></div>
+</blockquote>
 
 <h4>
 <a id="templates-placeholders" class="anchor" href="#templates-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Templates Placeholders</h4>
 
-<p>The plugin provides several <em>placeholders</em> for each template. These placeholders will return specific information from template. </p>
+<p>The plugin provides several <em>placeholders</em> for each template. These placeholders will return specific information about current element. Except a couple of them, most are not required to be used.</p>
 
 <h5>
 <a id="days-placeholders" class="anchor" href="#days-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Day's placeholders</h5>
 
 <ul>
 <li>
-<code>&lt;#day#&gt;</code>: day's number in the month, from <code>1</code> to <code>31</code>
+<code>#day#</code>: day's number in the month, from <code>1</code> to <code>31</code>
 </li>
 <li>
-<code>&lt;#weekday#&gt;</code>: day's number in the week, from <code>0</code> to <code>6</code>
+<code>#weekday#</code>: day's number in the week, from <code>0</code> to <code>6</code>
 </li>
 <li>
-<code>&lt;#time#&gt;</code>: day's timestamp </li>
+<code>#time#</code>: day's timestamp </li>
 <li>
-<code>&lt;#weekend#&gt;</code>: returns 'weekend' if day is Sunday or Saturday</li>
+<code>#weekend#</code>: returns 'weekend' if day is Sunday or Saturday</li>
 <li>
-<code>&lt;#today#&gt;</code>: returns 'today' if is today </li>
+<code>#today#</code>: returns 'today' if is today </li>
 <li>
-<code>&lt;#selected#&gt;</code>: returns 'selected' if day the selected one</li>
+<code>#selected#</code>: returns 'selected' if day the selected one</li>
 </ul>
 
 <h5>
@@ -192,29 +191,25 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <ul>
 <li>
-<code>&lt;#weekdayNumber#&gt;</code>: day number in the week, from <code>0</code> to <code>6</code>
+<code>#weekday#</code>: day number in the week, from <code>0</code> to <code>6</code>
 </li>
 <li>
-<code>&lt;#weekdayName#&gt;</code>: day's name (i.e. 'Su','Mo',etc). It will depend on the i18n configurations under <code>tpl.weekdays</code>.</li>
+<code>#weekdayName#</code>: day's name (i.e. 'Su','Mo',etc). It will depend on the i18n configurations under <code>tpl.weekdays</code>.</li>
+<li>
+<code>|</code>: here is where weeks's days will be rendered. <strong>REQUIRED</strong>
+</li>
 </ul>
 
 <h5>
-<a id="week-opens-placeholders" class="anchor" href="#week-opens-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Week Open's placeholders</h5>
+<a id="weeks-placeholders" class="anchor" href="#weeks-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Week's placeholders</h5>
 
 <ul>
 <li>
-<code>&lt;#week#&gt;</code>: week's number in the year</li>
+<code>#week#</code>: week's number in the year</li>
 <li>
-<code>&lt;#weekTime#&gt;</code>: week's timestamp (millisecons since January 1st, 1970)</li>
+<code>#weekTime#</code>: week's timestamp (millisecons since January 1st, 1970)</li>
 <li>
-<code>&lt;#weekSelected#&gt;</code>: returns 'selected' if the selected date is in this week.</li>
-</ul>
-
-<h5>
-<a id="week-closes-placeholders" class="anchor" href="#week-closes-placeholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>Week Close's placeholders</h5>
-
-<ul>
-<li>(has no placeholders}</li>
+<code>#weekSelected#</code>: returns 'selected' if the selected date is in this week.</li>
 </ul>
 
 <h5>
@@ -222,13 +217,14 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <ul>
 <li>
-<code>&lt;#monthName#&gt;</code>: Month's name (i.e. 'January','February',etc). It will depend on the i18n configurations under <code>tpl.months</code>.</li>
+<code>#year#</code>: Year number (i.e. '1999','2010',etc).</li>
 <li>
-<code>&lt;#year#&gt;</code>: Year number (i.e. '1999','2010',etc).</li>
+<code>#monthName#</code>: Month's name (i.e. 'January','February',etc). It will depend on the i18n configurations under <code>tpl.months</code>.</li>
 <li>
-<code>&lt;#monthDays#&gt;</code>: here is where month's days will be placed.</li>
+<code>#monthNumber#</code>: Month's number, form <code>0</code> to <code>11</code>
+</li>
 <li>
-<code>&lt;#monthNumber#&gt;</code>: Month's number, form <code>0</code> to <code>11</code>
+<code>|</code>: here is where month's days will be rendered. <strong>REQUIRED</strong>
 </li>
 </ul>
 
@@ -237,9 +233,9 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <ul>
 <li>
-<code>&lt;#prev#&gt;</code>: label for "prev" navigation link. It will depend on the i18n configurations under <code>tpl.prev</code>.</li>
+<code>#prev#</code>: label for "prev" navigation link. It will depend on the i18n configurations under <code>tpl.prev</code>. <strong>Required for navigation</strong>.</li>
 <li>
-<code>&lt;#next#&gt;</code>: label for "next" navigation link. It will depend on the i18n configurations under <code>tpl.next</code>.</li>
+<code>#next#</code>: label for "next" navigation link. It will depend on the i18n configurations under <code>tpl.next</code>. <strong>Required for navigation</strong>.</li>
 </ul>
 
 <h2>
@@ -248,29 +244,35 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 <p>Defaults:</p>
 
 <div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
-    i18n<span class="pl-k">:</span> {
-        weekdays<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Su<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mo<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Tu<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>We<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Th<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Fr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sa<span class="pl-pds">'</span></span>],
-        months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Jan<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Feb<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mar<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Apr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jun<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jul<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Aug<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sep<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Oct<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Nov<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Dec<span class="pl-pds">'</span></span>],
-        prev<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>prev<span class="pl-pds">'</span></span>, <span class="pl-c">// prev month</span>
-        next<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>next<span class="pl-pds">'</span></span>, <span class="pl-c">// next month</span>
-    }
+  i18n<span class="pl-k">:</span> {
+    weekdays<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Su<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mo<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Tu<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>We<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Th<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Fr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sa<span class="pl-pds">'</span></span>],
+    months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Jan<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Feb<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mar<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Apr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jun<span class="pl-pds">'</span></span>,
+             <span class="pl-s"><span class="pl-pds">'</span>Jul<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Aug<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sep<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Oct<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Nov<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Dec<span class="pl-pds">'</span></span>],
+    prev<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>prev<span class="pl-pds">'</span></span>, <span class="pl-c">// prev month label</span>
+    next<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>next<span class="pl-pds">'</span></span>, <span class="pl-c">// next month label</span>
+  }
 });</pre></div>
 
-<p>Examples:</p>
+<h4>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples:</h4>
+
+<p>Spanish version</p>
 
 <div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
-    i18n<span class="pl-k">:</span> {
-        <span class="pl-c">// Spanish version</span>
-        weekdays<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Do<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Lu<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Ma<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mi<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Ju<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Vi<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sa<span class="pl-pds">'</span></span>],
-        months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Ene<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Feb<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mar<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Abr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jun<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jul<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Ago<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sep<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Oct<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Nov<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Dic<span class="pl-pds">'</span></span>],
-    }
+  i18n<span class="pl-k">:</span> {
+    weekdays<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Do<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Lu<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Ma<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mi<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Ju<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Vi<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sa<span class="pl-pds">'</span></span>],
+    months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Ene<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Feb<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mar<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Abr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jun<span class="pl-pds">'</span></span>,
+             <span class="pl-s"><span class="pl-pds">'</span>Jul<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Ago<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sep<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Oct<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Nov<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Dic<span class="pl-pds">'</span></span>],
+  }
 });</pre></div>
 
+<p>English long months names</p>
+
 <div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
-    i18n<span class="pl-k">:</span> {
-        <span class="pl-c">// English long months names</span>
-        months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>January<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>February<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Marz<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>April<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>June<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>July<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>August<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>September<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>October<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>November<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>December<span class="pl-pds">'</span></span>],
-    }
+  i18n<span class="pl-k">:</span> {
+    months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>January<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>February<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Marz<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>April<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>June<span class="pl-pds">'</span></span>,
+             <span class="pl-s"><span class="pl-pds">'</span>July<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>August<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>September<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>October<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>November<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>December<span class="pl-pds">'</span></span>],
+  }
 });</pre></div>
 
 <h2>
@@ -298,14 +300,16 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 <li><p>Some functions took from <a href="https://github.com/dbushell/Pikaday">Pickaday</a>
 (David Bushell <a href="https://github.com/dbushell" class="user-mention">@dbushell</a> and Ramiro Rikkert @RamRik)</p></li>
 </ul>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/eduludi">eduludi</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/eduludi/jquery-yacal">jQuery yacal</a> is maintained by <a href="https://github.com/eduludi">eduludi</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-              <script type="text/javascript">
+
+    </section>
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -318,3 +322,4 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
   </body>
 </html>
+
