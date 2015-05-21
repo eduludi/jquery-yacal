@@ -4,8 +4,8 @@ https://github.com/eduludi/jquery-yacal
 
 Authors:
  - Eduardo Ludi @eduludi
- - Some s took from Pickaday: https://github.com/dbushell/Pikaday
-   (David Bushell @dbushell and Ramiro Rikkert @RamRik)
+ - Some ideas from Pickaday: https://github.com/dbushell/Pikaday
+   (thanks to David Bushell @dbushell and Ramiro Rikkert @RamRik)
  - isLeapYear: Matti Virkkunen (http://stackoverflow.com/a/4881951)
         
 Released under the MIT license
@@ -14,30 +14,31 @@ Released under the MIT license
 (( $, doc, win ) ->
   "use strict"
 
-  _name = 'yacal'
-  _msInDay = 86400000
+  _name = 'yacal' # plugin's name
+
+  _msInDay = 86400000 # milliseconds in a day
+  _eStr = '' # empty string
 
   # placeholders
   _ph = {
-    d: '<#day#>'
-    dt: '<#time#>'
-    we: '<#weekend#>'
-    t: '<#today#>'
-    s: '<#selected#>'
-    a: '<#active#>'
-    w: '<#week#>'
-    ws: '<#weekSelected#>'
-    wt: '<#weekTime#>'
-    wd: '<#weekday#>'
-    wdnam: '<#weekdayName#>'
-    wdnum: '<#weekdayNumber#>'
-    mnam: '<#monthName#>'
-    mnum: '<#monthNumber#>'
-    md: '<#monthDays#>'
-    y: '<#year#>'
-    nav: '<#nav#>'
-    prev: '<#prev#>'
-    next: '<#next#>'
+    d: '#day#'
+    dt: '#time#'
+    dw: '#dayWeek#'
+    we: '#weekend#'
+    t: '#today#'
+    s: '#selected#'
+    a: '#active#'
+    w: '#week#'
+    ws: '#weekSelected#'
+    wt: '#weekTime#'
+    wd: '#weekday#'
+    wdn: '#weekdayName#'
+    m: '#month#'
+    mnam: '#monthName#'
+    y: '#year#'
+    nav: '#nav#'
+    prev: '#prev#'
+    next: '#next#'
   }
 
   isDate = (obj) ->
@@ -61,7 +62,7 @@ Released under the MIT license
       true
 
   zeroHour = (date) ->
-    date.setHours(0,0,0,0)
+    date.setHours(0,0,0,0) # !!!: setHours() returns a timestamp
 
   isToday = (date) ->
     zeroHour(date) == zeroHour(new Date())
@@ -70,41 +71,57 @@ Released under the MIT license
     year % 4 == 0 and year % 100 != 0 || year % 400 == 0
 
   getDaysInMonth = (year, month) ->
-    [31, (if isLeapYear(year) then 29 else 28),31,30,31,30,
-     31,31,30,31,30,31][month]
+    s = 30 # short month
+    l = 31 # long month
+    f = (if isLeapYear(year) then 29 else 28) # febraury
+    [l,f,l,s,l,s,l,l,s,l,s,l][month]
 
   getWeekNumber = (date) ->
     onejan = new Date(date.getFullYear(), 0, 1)
     Math.ceil((((date - onejan) / _msInDay) + onejan.getDay() + 1) / 7)
 
-  getWeekStartTime = (date) ->
-    new Date(date.getTime() - date.getDay()*_msInDay)
+  getWeekStart = (date) ->
+    new Date(zeroHour(date) - date.getDay()*_msInDay)
+
+  getWeekEnd = (weekStartDate) ->
+    new Date(weekStartDate.getTime() + (7 * _msInDay) - 1)
 
   changeMonth = (date,amount) ->
     new Date(date.getFullYear(),(date.getMonth() + amount),1)
 
   tag = (name,classes,content,data) ->
-    '<'+name+' '+ (if classes then ' class="'+classes+'" ' else '')+
-                  (if data then 'data-'+data else '')+'>'+
-                  (if content then content+'</'+name+'>' else '')
+    '<'+name+' '+
+      (if classes then ' class="'+classes+'"' else _eStr)+
+      (if data then ' data-'+data else _eStr)+'>'+
+      (if content then content else _eStr) +
+    '</'+name+'>'
 
   # Plugin definition
   $.fn.yacal = ( options ) ->
 
     this.each( (index) ->
-      # Instance configurations
+      
+      # _d = Current date, _s = Selected date
       _d = _s = null
+
+      # template settings
       _tpl = {}
+
+      # internationalization settings
       _i18n = {}
+
+      # other settings
       _nearMonths = _showWD = _minDate = _maxDate = _firstDay = null
+
+      # runtime templates parts
+      _weekPart = _monthPart = null
 
       # Instance Methods
       isSelected = (date) ->
         zeroHour(_s) == zeroHour(date)
 
-      # Instance Methods
       isSelectedWeek = (wStart) ->
-        inRange(_s,getWeekStartTime(wStart),new Date(wStart.getTime()+((7-wStart.getDay())*_msInDay)-1))
+        inRange(_s,wStart,getWeekEnd(wStart))
 
       renderNav = () ->
         _tpl.nav.replace(_ph.prev,_i18n.prev)
@@ -113,57 +130,61 @@ Released under the MIT license
       renderDay = (date) ->
         _tpl.day.replace(_ph.d, date.getDate())
                 .replace(_ph.dt, date.getTime())
-                .replace(_ph.we, if isWeekend(date) then ' weekend' else '')
-                .replace(_ph.t, if isToday(date) then ' today' else '')
-                .replace(_ph.s, if isSelected(date) then ' selected' else '')
-                .replace(_ph.a, if inRange(date,_minDate,_maxDate) then ' active' else '')
-                .replace(_ph.wd, date.getDay())
+                .replace(_ph.dw, date.getDay())
+                .replace(_ph.we, if isWeekend(date) then ' weekend' else _eStr)
+                .replace(_ph.t, if isToday(date) then ' today' else _eStr)
+                .replace(_ph.s, if isSelected(date) then ' selected' else _eStr)
+                .replace(_ph.a, if inRange(date,_minDate,_maxDate) then ' active' else _eStr)
       
       renderMonth = (date,nav=false) ->
         totalDays = getDaysInMonth(date.getYear(),date.getMonth())
         month = date.getMonth()
         year = date.getFullYear()
-        out = ''
+        out = _eStr
         d = 0
 
         # weekdays
         if _showWD
           wd = 0
-          out += _tpl.weekOpen.replace(_ph.w,wd)
-                              .replace(_ph.wt,'')
-                              .replace(_ph.ws,'')
+          out += _weekPart[0].replace(_ph.w,wd)
+                              .replace(_ph.wt,_eStr)
+                              .replace(_ph.ws,_eStr)
           while wd <= 6
-            out += _tpl.weekday.replace(_ph.wdnam,_i18n.weekdays[wd])
-                              .replace(_ph.wdnum,wd)
-            wd++
-          out += _tpl.weekClose;
+            out += _tpl.weekday.replace(_ph.wdn,_i18n.weekdays[wd])
+                                .replace(_ph.wd,wd++)
+          out += _weekPart[1]
 
         # month weeks and days
         while d < totalDays
           day = new Date(year,month,d+1)
 
           if 0 in [d,day.getDay()]
-            out += _tpl.weekOpen
-                    .replace(_ph.w, getWeekNumber(day))
-                    .replace(_ph.wt, getWeekStartTime(day))
-                    .replace(_ph.ws, if isSelectedWeek(day) then ' selected' else '')
-
-          out += renderDay(day,_tpl.day)
-          
-          if (d == totalDays-1 || day.getDay() == 6)
-            out += _tpl.weekClose
-
+            wStart = getWeekStart(day)
+            selWeek = if isSelectedWeek(wStart) then ' selected' else _eStr
+            out += _weekPart[0].replace(_ph.w, getWeekNumber(day))
+                                .replace(_ph.wt, wStart)
+                                .replace(_ph.ws, selWeek)
           d++
+          out += renderDay(day,_tpl.day)
+
+          if (d == totalDays || day.getDay() == 6)
+            out += _weekPart[1]
+
 
         # replace placeholders and return the output
-        _tpl.month.replace(_ph.mnum,month)
-                  .replace(_ph.mnam,_i18n.months[month])
-                  .replace(_ph.nav,if nav then renderNav() else '')
-                  .replace(_ph.y,year)
-                  .replace(_ph.md,out)
+        _monthPart[0].replace(_ph.m,month)
+                      .replace(_ph.mnam,_i18n.months[month])
+                      .replace(_ph.y,year) +
+                      out +
+                      _monthPart[1]
 
-      renderCalendar = (element) ->
+      renderCalendar = (element,move) ->
         out = ''
+        cal = $(element)
+
+        if move
+          _d = changeMonth(_d,move)
+
         # Render previous month[s]
         if _nearMonths
           pm = _nearMonths
@@ -181,18 +202,17 @@ Released under the MIT license
             out += renderMonth(changeMonth(_d,+nm))
             nm++
 
-        # add the output to the dom element
-        $(element).html('')
-        $(element).append($(_tpl.wrap).append(out))
+        # add wrap, nav, output, and clearfix to the dom element
+        cal.html('').append($(_tpl.wrap).append(renderNav())
+                                        .append(out)
+                                        .append(_tpl.clearfix))
 
         # Navigation Events
-        nav = $(element).find('.yclNav')
-        nav.find('.prev').on 'click', ->
-          _d = changeMonth(_d,-1)
-          renderCalendar($(element))
-        nav.find('.next').on 'click', ->
-          _d = changeMonth(_d,+1)
-          renderCalendar($(element))
+        nav = cal.find('.yclNav')
+        nav.find('.prev').on 'click', -> renderCalendar(cal,-1)
+        nav.find('.next').on 'click', -> renderCalendar(cal,1)
+
+      # End of instance methods -
 
       # get config from defaults
       opts = $.extend(true,{}, $.fn.yacal.defaults, options )
@@ -210,6 +230,9 @@ Released under the MIT license
       _maxDate = new Date(opts.maxDate) if opts.maxDate
       _firstDay = parseInt(opts.firstDay) # TODO
 
+      _weekPart = _tpl.week.split('|')
+      _monthPart = _tpl.month.split('|')
+
       renderCalendar(this)
     )
 
@@ -220,30 +243,30 @@ Released under the MIT license
     showWeekdays: 1,
     minDate: null,
     maxDate: null,
+    firstDay: 0,
     tpl: {
-      day: tag('a','day day'+_ph.wd+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a,
-              _ph.d,'time="'+_ph.dt+'"')
-      weekday: tag('i','wday wday'+_ph.wdnum,_ph.wdnam)
-      weekOpen: tag('div','week week'+_ph.w+_ph.ws,null,'time="'+_ph.wt+'"')
-      weekClose: '</div>'
-      month: tag('div','month month'+_ph.mnum,
-               _ph.nav + tag('h4',null,_ph.mnam+' '+_ph.y) + _ph.md)
+      day: tag('a','day d'+_ph.dw+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a,
+               _ph.d,'time="'+_ph.dt+'"')
+      weekday: tag('i','wday wd'+_ph.wd,_ph.wdn)
+      week: tag('div','week w'+_ph.w+_ph.ws,'|','time="'+_ph.wt+'"')
+      month: tag('div','month m'+_ph.m,tag('h4',null,_ph.mnam+' '+_ph.y) + '|')
       nav: tag('div','yclNav',
-              tag('a','prev',tag('span',null,_ph.prev))+
-              tag('a','next',tag('span',null,_ph.next)) )
+                tag('a','prev',tag('span',null,_ph.prev))+
+                tag('a','next',tag('span',null,_ph.next)))
       wrap: tag('div','wrap')
+      clearfix: tag('div','clearfix')
     }
     i18n: {
       weekdays: ['Su','Mo','Tu','We','Th','Fr','Sa'],
       months: ['Jan','Feb','Mar','Apr','May','Jun',
-               'Jul','Aug','Sept','Oct','Nov','Dec'],
+               'Jul','Aug','Sep','Oct','Nov','Dec'],
       prev: 'prev',
       next: 'next',
     }
   }
 
   # Version number
-  $.fn.yacal.version = '0.1.1';
+  $.fn.yacal.version = '0.3.0';
 
   # Autoinitialize .yacal elements on load
   $('.' + _name).yacal()

@@ -6,37 +6,37 @@ https://github.com/eduludi/jquery-yacal
 
 Authors:
  - Eduardo Ludi @eduludi
- - Some s took from Pickaday: https://github.com/dbushell/Pikaday
-   (David Bushell @dbushell and Ramiro Rikkert @RamRik)
+ - Some ideas from Pickaday: https://github.com/dbushell/Pikaday
+   (thanks to David Bushell @dbushell and Ramiro Rikkert @RamRik)
  - isLeapYear: Matti Virkkunen (http://stackoverflow.com/a/4881951)
         
 Released under the MIT license
  */
 (function($, doc, win) {
   "use strict";
-  var _msInDay, _name, _ph, changeMonth, getDaysInMonth, getWeekNumber, getWeekStartTime, inRange, isDate, isLeapYear, isToday, isWeekend, tag, zeroHour;
+  var _eStr, _msInDay, _name, _ph, changeMonth, getDaysInMonth, getWeekEnd, getWeekNumber, getWeekStart, inRange, isDate, isLeapYear, isToday, isWeekend, tag, zeroHour;
   _name = 'yacal';
   _msInDay = 86400000;
+  _eStr = '';
   _ph = {
-    d: '<#day#>',
-    dt: '<#time#>',
-    we: '<#weekend#>',
-    t: '<#today#>',
-    s: '<#selected#>',
-    a: '<#active#>',
-    w: '<#week#>',
-    ws: '<#weekSelected#>',
-    wt: '<#weekTime#>',
-    wd: '<#weekday#>',
-    wdnam: '<#weekdayName#>',
-    wdnum: '<#weekdayNumber#>',
-    mnam: '<#monthName#>',
-    mnum: '<#monthNumber#>',
-    md: '<#monthDays#>',
-    y: '<#year#>',
-    nav: '<#nav#>',
-    prev: '<#prev#>',
-    next: '<#next#>'
+    d: '#day#',
+    dt: '#time#',
+    dw: '#dayWeek#',
+    we: '#weekend#',
+    t: '#today#',
+    s: '#selected#',
+    a: '#active#',
+    w: '#week#',
+    ws: '#weekSelected#',
+    wt: '#weekTime#',
+    wd: '#weekday#',
+    wdn: '#weekdayName#',
+    m: '#month#',
+    mnam: '#monthName#',
+    y: '#year#',
+    nav: '#nav#',
+    prev: '#prev#',
+    next: '#next#'
   };
   isDate = function(obj) {
     return /Date/.test(Object.prototype.toString.call(obj)) && !isNaN(obj.getTime());
@@ -69,76 +69,89 @@ Released under the MIT license
     return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
   };
   getDaysInMonth = function(year, month) {
-    return [31, (isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+    var f, l, s;
+    s = 30;
+    l = 31;
+    f = (isLeapYear(year) ? 29 : 28);
+    return [l, f, l, s, l, s, l, l, s, l, s, l][month];
   };
   getWeekNumber = function(date) {
     var onejan;
     onejan = new Date(date.getFullYear(), 0, 1);
     return Math.ceil((((date - onejan) / _msInDay) + onejan.getDay() + 1) / 7);
   };
-  getWeekStartTime = function(date) {
-    return new Date(date.getTime() - date.getDay() * _msInDay);
+  getWeekStart = function(date) {
+    return new Date(zeroHour(date) - date.getDay() * _msInDay);
+  };
+  getWeekEnd = function(weekStartDate) {
+    return new Date(weekStartDate.getTime() + (7 * _msInDay) - 1);
   };
   changeMonth = function(date, amount) {
     return new Date(date.getFullYear(), date.getMonth() + amount, 1);
   };
   tag = function(name, classes, content, data) {
-    return '<' + name + ' ' + (classes ? ' class="' + classes + '" ' : '') + (data ? 'data-' + data : '') + '>' + (content ? content + '</' + name + '>' : '');
+    return '<' + name + ' ' + (classes ? ' class="' + classes + '"' : _eStr) + (data ? ' data-' + data : _eStr) + '>' + (content ? content : _eStr) + '</' + name + '>';
   };
   $.fn.yacal = function(options) {
     return this.each(function(index) {
-      var _d, _firstDay, _i18n, _maxDate, _minDate, _nearMonths, _s, _showWD, _tpl, isSelected, isSelectedWeek, opts, renderCalendar, renderDay, renderMonth, renderNav;
+      var _d, _firstDay, _i18n, _maxDate, _minDate, _monthPart, _nearMonths, _s, _showWD, _tpl, _weekPart, isSelected, isSelectedWeek, opts, renderCalendar, renderDay, renderMonth, renderNav;
       _d = _s = null;
       _tpl = {};
       _i18n = {};
       _nearMonths = _showWD = _minDate = _maxDate = _firstDay = null;
+      _weekPart = _monthPart = null;
       isSelected = function(date) {
         return zeroHour(_s) === zeroHour(date);
       };
       isSelectedWeek = function(wStart) {
-        return inRange(_s, getWeekStartTime(wStart), new Date(wStart.getTime() + ((7 - wStart.getDay()) * _msInDay) - 1));
+        return inRange(_s, wStart, getWeekEnd(wStart));
       };
       renderNav = function() {
         return _tpl.nav.replace(_ph.prev, _i18n.prev).replace(_ph.next, _i18n.next);
       };
       renderDay = function(date) {
-        return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, date.getTime()).replace(_ph.we, isWeekend(date) ? ' weekend' : '').replace(_ph.t, isToday(date) ? ' today' : '').replace(_ph.s, isSelected(date) ? ' selected' : '').replace(_ph.a, inRange(date, _minDate, _maxDate) ? ' active' : '').replace(_ph.wd, date.getDay());
+        return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, date.getTime()).replace(_ph.dw, date.getDay()).replace(_ph.we, isWeekend(date) ? ' weekend' : _eStr).replace(_ph.t, isToday(date) ? ' today' : _eStr).replace(_ph.s, isSelected(date) ? ' selected' : _eStr).replace(_ph.a, inRange(date, _minDate, _maxDate) ? ' active' : _eStr);
       };
       renderMonth = function(date, nav) {
-        var d, day, month, out, totalDays, wd, year;
+        var d, day, month, out, selWeek, totalDays, wStart, wd, year;
         if (nav == null) {
           nav = false;
         }
         totalDays = getDaysInMonth(date.getYear(), date.getMonth());
         month = date.getMonth();
         year = date.getFullYear();
-        out = '';
+        out = _eStr;
         d = 0;
         if (_showWD) {
           wd = 0;
-          out += _tpl.weekOpen.replace(_ph.w, wd).replace(_ph.wt, '').replace(_ph.ws, '');
+          out += _weekPart[0].replace(_ph.w, wd).replace(_ph.wt, _eStr).replace(_ph.ws, _eStr);
           while (wd <= 6) {
-            out += _tpl.weekday.replace(_ph.wdnam, _i18n.weekdays[wd]).replace(_ph.wdnum, wd);
-            wd++;
+            out += _tpl.weekday.replace(_ph.wdn, _i18n.weekdays[wd]).replace(_ph.wd, wd++);
           }
-          out += _tpl.weekClose;
+          out += _weekPart[1];
         }
         while (d < totalDays) {
           day = new Date(year, month, d + 1);
           if (0 === d || 0 === day.getDay()) {
-            out += _tpl.weekOpen.replace(_ph.w, getWeekNumber(day)).replace(_ph.wt, getWeekStartTime(day)).replace(_ph.ws, isSelectedWeek(day) ? ' selected' : '');
-          }
-          out += renderDay(day, _tpl.day);
-          if (d === totalDays - 1 || day.getDay() === 6) {
-            out += _tpl.weekClose;
+            wStart = getWeekStart(day);
+            selWeek = isSelectedWeek(wStart) ? ' selected' : _eStr;
+            out += _weekPart[0].replace(_ph.w, getWeekNumber(day)).replace(_ph.wt, wStart).replace(_ph.ws, selWeek);
           }
           d++;
+          out += renderDay(day, _tpl.day);
+          if (d === totalDays || day.getDay() === 6) {
+            out += _weekPart[1];
+          }
         }
-        return _tpl.month.replace(_ph.mnum, month).replace(_ph.mnam, _i18n.months[month]).replace(_ph.nav, nav ? renderNav() : '').replace(_ph.y, year).replace(_ph.md, out);
+        return _monthPart[0].replace(_ph.m, month).replace(_ph.mnam, _i18n.months[month]).replace(_ph.y, year) + out + _monthPart[1];
       };
-      renderCalendar = function(element) {
-        var nav, nm, out, pm;
+      renderCalendar = function(element, move) {
+        var cal, nav, nm, out, pm;
         out = '';
+        cal = $(element);
+        if (move) {
+          _d = changeMonth(_d, move);
+        }
         if (_nearMonths) {
           pm = _nearMonths;
           while (pm > 0) {
@@ -154,16 +167,13 @@ Released under the MIT license
             nm++;
           }
         }
-        $(element).html('');
-        $(element).append($(_tpl.wrap).append(out));
-        nav = $(element).find('.yclNav');
+        cal.html('').append($(_tpl.wrap).append(renderNav()).append(out).append(_tpl.clearfix));
+        nav = cal.find('.yclNav');
         nav.find('.prev').on('click', function() {
-          _d = changeMonth(_d, -1);
-          return renderCalendar($(element));
+          return renderCalendar(cal, -1);
         });
         return nav.find('.next').on('click', function() {
-          _d = changeMonth(_d, +1);
-          return renderCalendar($(element));
+          return renderCalendar(cal, 1);
         });
       };
       opts = $.extend(true, {}, $.fn.yacal.defaults, options);
@@ -182,6 +192,8 @@ Released under the MIT license
         _maxDate = new Date(opts.maxDate);
       }
       _firstDay = parseInt(opts.firstDay);
+      _weekPart = _tpl.week.split('|');
+      _monthPart = _tpl.month.split('|');
       return renderCalendar(this);
     });
   };
@@ -191,22 +203,23 @@ Released under the MIT license
     showWeekdays: 1,
     minDate: null,
     maxDate: null,
+    firstDay: 0,
     tpl: {
-      day: tag('a', 'day day' + _ph.wd + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a, _ph.d, 'time="' + _ph.dt + '"'),
-      weekday: tag('i', 'wday wday' + _ph.wdnum, _ph.wdnam),
-      weekOpen: tag('div', 'week week' + _ph.w + _ph.ws, null, 'time="' + _ph.wt + '"'),
-      weekClose: '</div>',
-      month: tag('div', 'month month' + _ph.mnum, _ph.nav + tag('h4', null, _ph.mnam + ' ' + _ph.y) + _ph.md),
+      day: tag('a', 'day d' + _ph.dw + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a, _ph.d, 'time="' + _ph.dt + '"'),
+      weekday: tag('i', 'wday wd' + _ph.wd, _ph.wdn),
+      week: tag('div', 'week w' + _ph.w + _ph.ws, '|', 'time="' + _ph.wt + '"'),
+      month: tag('div', 'month m' + _ph.m, tag('h4', null, _ph.mnam + ' ' + _ph.y) + '|'),
       nav: tag('div', 'yclNav', tag('a', 'prev', tag('span', null, _ph.prev)) + tag('a', 'next', tag('span', null, _ph.next))),
-      wrap: tag('div', 'wrap')
+      wrap: tag('div', 'wrap'),
+      clearfix: tag('div', 'clearfix')
     },
     i18n: {
       weekdays: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       prev: 'prev',
       next: 'next'
     }
   };
-  $.fn.yacal.version = '0.1.1';
+  $.fn.yacal.version = '0.3.0';
   return $('.' + _name).yacal();
 })(jQuery, document, window);

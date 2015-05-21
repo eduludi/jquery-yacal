@@ -4,40 +4,43 @@
  * Author: Eduardo Ludi (@eduludi)
  * More info: http://eduludi.github.io/jquery-yacal/
 */
-
-body {
-	font-family: helvetica, arial;
-}
-h1,
-h2,
-h3 {
-	clear: both;
-	padding: 20px 10px 10px;
-	margin: 0;
-}
-.month {
+.wrap {
 	position: relative;
-	float: left;
-	margin: 10px;
-	border: 1px solid lightgray;
-	border-radius: 2%;
+	display: inline-block;
 }
 
-.yclNav {}
+/* Same as Bootstrap's .clearfix */
+.clearfix {
+	display: table;
+	content: " ";
+	clear: both;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.yclNav {
+}
 .prev,
 .next {
+	z-index: 100;
 	position: absolute;
 	display: block;
-	top: 10px;
-	background-color: gray;
+	top: 15px;
 	border-radius: 15px;
-	width: 20px;
-	height: 20px;
+	border: 1px solid transparent;
+	width: 30px;
+	height: 30px;
+}
+.prev:hover,
+.next:hover {
+	border-color: gray;
 }
 .prev::before,
 .next::after {
 	position: absolute;
-	color: white;
+	top: 3px;
+	color: gray;
 	font-weight: bold;
 }
 .prev span,
@@ -49,16 +52,25 @@ h3 {
 }
 .prev::before {
 	content: '<';
-	left: 5px;
+	left: 10px;
 }
 .next {
 	right: 10px;
 }
 .next:after {
 	content: '>';
-	right: 5px;
+	right: 9px;
 }
 
+.month {
+	z-index: 5;
+	position: relative;
+	float: left;
+	margin: 10px 5px;
+	border: 1px solid lightgray;
+	border-radius: 2%;
+	min-height: 266px; /*this avoids jumping*/
+}
 .month h4 {
 	text-align: center;
 	margin: 0;
@@ -66,28 +78,30 @@ h3 {
 	border-bottom: 1px solid lightgray;
 	overflow: hidden;
 }
+
 .week {
 	position: relative;
-	height: 30px;
+	height: 32px;
 	width: 210px;
-	margin: 4px;
+	margin: 0 4px;
 	border: 0 solid transparent;
 	border-width: 1px 0;
 }
 .week:not(.week0):hover {
 	border-color: lightgray;
 }
+
 .day,
 .wday {
 	display: block;
-	width: 26px;
-	height: 22px;
-	padding-top: 4px;
+	width: 30px;
+	height: 30px;
+	line-height: 28px;
 	position: absolute;
 	text-align: center;
 	text-decoration: none;
-	border: 2px solid transparent;
-	border-radius: 16px;
+	border: 1px solid transparent;
+	border-radius: 38px;
 	font-size: 14px;
 	color: #aaa;
 }
@@ -111,31 +125,31 @@ h3 {
 .wday {
 	font-size: 12px;
 }
-.day.day0,
-.wday.wday0 {
+.day.d0,
+.wday.wd0 {
 	left: 0;
 }
-.day.day1,
-.wday.wday1 {
+.day.d1,
+.wday.wd1 {
 	left: 30px;
 }
-.day.day2,
-.wday.wday2 {
+.day.d2,
+.wday.wd2 {
 	left: 60px;
 }
-.day.day3,
-.wday.wday3 {
+.day.d3,
+.wday.wd3 {
 	left: 90px;
 }
-.day.day4,
-.wday.wday4 {
+.day.d4,
+.wday.wd4 {
 	left: 120px;
 }
-.day.day5,
-.wday.wday5 {
+.day.d5,
+.wday.wd5 {
 	left: 150px;
 }
-.day.day6,
-.wday.wday6 {
+.day.d6,
+.wday.wd6 {
 	left: 180px;
 }

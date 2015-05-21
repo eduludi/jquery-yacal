@@ -2,12 +2,9 @@
 **Y**et **A**nother **Cal**endar plugin for jQuery.
 
 ## What is yacal?
-It is a lightweight (~3.5KB min / ~1.5kb gzip) **jQuery calendar plugin**, easy to configure and use. 
-It comes with a default template, but you can tune up at your taste. 
-Also supports some basic internationalization. 
+Yacal is a lightweight (~3.5KB min / ~1.5kb gzip) **jQuery calendar plugin**, easy to configure and use. It comes with a default template, but you can tune up at your taste, and it also supports some basic internationalization. 
 
-The main idea behind yacal is getting a basic calendar DOM structure that you can use as you please. 
-So, do whatever you whant with it. 
+The main idea behind yacal is getting a basic calendar DOM structure that you can use as you please. So, do whatever you want with it. 
 
 ## What is not?
 * It's **not a Date Picker** (but you can build one with it adding some lines of jQuery and Monent.js in your project)
@@ -78,95 +75,106 @@ In yacal is possible to configure the resulting output. The plugin provides acce
 
 ```html
 <!-- pseudo-html -->
-<month>
-	<monthTitle/>
-	<weeksdays/>
-	<weekOpen />
-		<day /> 
-		<day /> 
+<wrap>
+	<nav/>
+	<month>
+		<monthTitle/>
+		<weeksdays/>
+		<week>
+			<day /> 
+			<day /> 
+			...
+		<week/>
 		...
-	<weekClose/>
+	</month>
 	...
-</month>
+	<clearfix/>
+</wrap>
 ``` 
 
 Default templates:
 
 ```javascript
 $('.calendar').yacal({
-	tpl: { 
-		day: '<a class="day day<#weekday#><#weekend#><#today#><#selected#>" href="#<#timestamp#>"><#day#></a>',
-		weekday: '<small class="weekday weekday<#weekdayNumber#>"><#weekdayName#></small>',
-		weekOpen: '<div class="week week<#weekNumber#>">',
-		weekClose: '</div>',
-		month: '<div class="month <#monthNumber#>"><h4><#monthName#> <#year#></h4><#monthDays#></div>',
-		nav: '<div class="yclNav">'+
-						'<a class="prev"><span><#prev#></span></a>'+
-						'<a class="pext"><span><#next#></span></a>'+
-					'</div>'
-		wrap: '<div class="wrap"></div>'
-	}
+  tpl: { 
+    day: '<a class="day d#weekday##weekend##today##selected#" href="##timestamp#">#day#</a>',
+    weekday: '<i class="weekday wd#weekday#">#weekdayName#</i>',
+    week: '<div class="week week#week##weekSelected#" data-time="#weekTime#">|</div>',
+    month: '<div class="month #monthNumber#"><h4>#monthName# #year#</h4>|</div>',
+    nav: '<div class="yclNav">'+
+           '<a class="prev"><span>#prev#</span></a>'+
+           '<a class="pext"><span>#next#</span></a>'+
+         '</div>'
+    wrap: '<div class="wrap"></div>'
+    clearfix: '<div class="clearfix"></div>'
+  }
 });
 ```
-> Note: in `nav` template, `yclNav`, `prev` and `next` should stay within the `class` attributes of both nav links and the `yclNav` wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones.
+> **Note A**: in `nav`'s template, `yclNav`, `prev` and `next` should stay within the `class` attributes of both nav links and the `yclNav` wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones. Example:
 
-Example:
-
-```javascript
+> ```javascript
 $('.calendar').yacal({
-	tpl: { 
-		// Adds a strong wrapping the day and remove day's taggings (today, selected, etc)
-		day: '<a class="day day<#weekday#>"><strong><#day#></strong></a>',
-		// Simplifies the month header
-		month: '<div class="month"><h2><#monthName#></h2><#monthDays#></div>',
-		// adds new classes ('myNav' and 'myNext'), but keeping the originals
-		nav: '<div class="nav myNav">'+
-						'<a class="prev"><strong><#prev#></strong></a>'+ 
-						'<a class="next myNext"><strong><#next#></strong></a>'+
-					'</div>'
-	}
+  tpl: {
+    // adds new classes ('myNav' and 'myNext'), 
+    // but keeping the originals (`yclNav`, `prev` and `next`)
+    nav: '<div class="yclNav myNav">'+
+           '<a class="prev"><strong>#prev#</strong></a>'+ 
+           '<a class="next myNext"><strong>#next#</strong></a>'+
+         '</div>'
+  }
 });
-```
+> ```
+
+> **Note B**: in `week`'s and `month`'s templates, there are pipe characters, `|`, that are also required. Is there where week's days will be placed. Example:
+
+> ```javascript
+$('.calendar').yacal({
+  tpl: {
+  	// Don't render weeks
+    week: '|',
+    // Simplifies the month header
+    month: '<div class="month"><h2>#monthName#</h2>|</div>',
+  }
+});
+> ```
+
 
 #### Templates Placeholders
 
-The plugin provides several _placeholders_ for each template. These placeholders will return specific information from template. 
+The plugin provides several _placeholders_ for each template. These placeholders will return specific information about current element. Except a couple of them, most are not required to be used.
 
 ##### Day's placeholders
 
-- `<#day#>`: day's number in the month, from `1` to `31`
-- `<#weekday#>`: day's number in the week, from `0` to `6`
-- `<#time#>`: day's timestamp 
-- `<#weekend#>`: returns 'weekend' if day is Sunday or Saturday
-- `<#today#>`: returns 'today' if is today 
-- `<#selected#>`: returns 'selected' if day the selected one
+- `#day#`: day's number in the month, from `1` to `31`
+- `#weekday#`: day's number in the week, from `0` to `6`
+- `#time#`: day's timestamp 
+- `#weekend#`: returns 'weekend' if day is Sunday or Saturday
+- `#today#`: returns 'today' if is today 
+- `#selected#`: returns 'selected' if day the selected one
 
 ##### Weekday's placeholders
 
-- `<#weekdayNumber#>`: day number in the week, from `0` to `6`
-- `<#weekdayName#>`: day's name (i.e. 'Su','Mo',etc). It will depend on the i18n configurations under `tpl.weekdays`.
+- `#weekday#`: day number in the week, from `0` to `6`
+- `#weekdayName#`: day's name (i.e. 'Su','Mo',etc). It will depend on the i18n configurations under `tpl.weekdays`.
+- `|`: here is where weeks's days will be rendered. **REQUIRED**
 
-##### Week Open's placeholders
+##### Week's placeholders
 
-- `<#week#>`: week's number in the year
-- `<#weekTime#>`: week's timestamp (millisecons since January 1st, 1970)
-- `<#weekSelected#>`: returns 'selected' if the selected date is in this week.
-
-##### Week Close's placeholders
-
-- (has no placeholders}
+- `#week#`: week's number in the year
+- `#weekTime#`: week's timestamp (millisecons since January 1st, 1970)
+- `#weekSelected#`: returns 'selected' if the selected date is in this week.
 
 ##### Month's placeholders
 
-- `<#monthName#>`: Month's name (i.e. 'January','February',etc). It will depend on the i18n configurations under `tpl.months`.
-- `<#year#>`: Year number (i.e. '1999','2010',etc).
-- `<#monthDays#>`: here is where month's days will be placed.
-- `<#monthNumber#>`: Month's number, form `0` to `11`
+- `#year#`: Year number (i.e. '1999','2010',etc).
+- `#monthName#`: Month's name (i.e. 'January','February',etc). It will depend on the i18n configurations under `tpl.months`.
+- `#monthNumber#`: Month's number, form `0` to `11`
+- `|`: here is where month's days will be rendered. **REQUIRED**
 
 ##### Nav paceholders
 
-- `<#prev#>`: label for "prev" navigation link. It will depend on the i18n configurations under `tpl.prev`.
-- `<#next#>`: label for "next" navigation link. It will depend on the i18n configurations under `tpl.next`.
+- `#prev#`: label for "prev" navigation link. It will depend on the i18n configurations under `tpl.prev`. **Required for navigation**.
+- `#next#`: label for "next" navigation link. It will depend on the i18n configurations under `tpl.next`. **Required for navigation**.
 
 ## I18n
 
@@ -174,33 +182,38 @@ Defaults:
 
 ```javascript
 $('.calendar').yacal({
-	i18n: {
-		weekdays: ['Su','Mo','Tu','We','Th','Fr','Sa'],
-		months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-		prev: 'prev', // prev month
-		next: 'next', // next month
-	}
+  i18n: {
+    weekdays: ['Su','Mo','Tu','We','Th','Fr','Sa'],
+    months: ['Jan','Feb','Mar','Apr','May','Jun',
+             'Jul','Aug','Sep','Oct','Nov','Dec'],
+    prev: 'prev', // prev month label
+    next: 'next', // next month label
+  }
 });
 ```
 
-Examples:
+#### Examples:
+
+Spanish version
 
 ```javascript
 $('.calendar').yacal({
-	i18n: {
-		// Spanish version
-		weekdays: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
-		months: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-	}
+  i18n: {
+    weekdays: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
+    months: ['Ene','Feb','Mar','Abr','May','Jun',
+             'Jul','Ago','Sep','Oct','Nov','Dic'],
+  }
 });
 ```
 
+English long months names
+
 ```javascript
 $('.calendar').yacal({
-	i18n: {
-		// English long months names
-		months: ['January','February','Marz','April','May','June','July','August','September','October','November','December'],
-	}
+  i18n: {
+    months: ['January','February','Marz','April','May','June',
+             'July','August','September','October','November','December'],
+  }
 });
 ```
 

@@ -11,7 +11,7 @@ build = (min=false,callback) ->
   coffee.stderr.on 'data', (data) ->
     process.stderr.write data.toString()
   coffee.stdout.on 'data', (data) ->
-    print data.toString()
+    # print data.toString()
   coffee.on 'exit', (code) ->
     print outFile + ' is done!\n'
     callback?(outFile) if code is 0

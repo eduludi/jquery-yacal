@@ -12,7 +12,9 @@
     "plugin",
     "calendar",
     "yacal",
-    "lightweight"
+    "lightweight",
+    "i18n",
+    "templates"
   ],
   "license": "MIT",
   "ignore": [
