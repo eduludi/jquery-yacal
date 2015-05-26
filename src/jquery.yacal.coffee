@@ -15,12 +15,13 @@ Released under the MIT license
   "use strict"
 
   _name = 'yacal' # plugin's name
+  _version = '0.3.1'
 
   _msInDay = 86400000 # milliseconds in a day
   _eStr = '' # empty string
 
   # placeholders
-  _ph = {
+  _ph =
     d: '#day#'
     dt: '#time#'
     dw: '#dayWeek#'
@@ -39,7 +40,6 @@ Released under the MIT license
     nav: '#nav#'
     prev: '#prev#'
     next: '#next#'
-  }
 
   isDate = (obj) ->
     (/Date/).test(Object.prototype.toString.call(obj)) and !isNaN(obj.getTime())
@@ -104,10 +104,8 @@ Released under the MIT license
       # _d = Current date, _s = Selected date
       _d = _s = null
 
-      # template settings
+      # template  & internationalization settings
       _tpl = {}
-
-      # internationalization settings
       _i18n = {}
 
       # other settings
@@ -137,11 +135,11 @@ Released under the MIT license
                 .replace(_ph.a, if inRange(date,_minDate,_maxDate) then ' active' else _eStr)
       
       renderMonth = (date,nav=false) ->
-        totalDays = getDaysInMonth(date.getYear(),date.getMonth())
+        d = 0
+        out = _eStr
         month = date.getMonth()
         year = date.getFullYear()
-        out = _eStr
-        d = 0
+        totalDays = getDaysInMonth(date.getYear(),date.getMonth())
 
         # weekdays
         if _showWD
@@ -169,7 +167,6 @@ Released under the MIT license
 
           if (d == totalDays || day.getDay() == 6)
             out += _weekPart[1]
-
 
         # replace placeholders and return the output
         _monthPart[0].replace(_ph.m,month)
@@ -224,11 +221,11 @@ Released under the MIT license
       _d = _s = new Date(opts.date) # Ensures get a date
       _tpl = opts.tpl
       _i18n = opts.i18n
-      _nearMonths = parseInt(opts.nearMonths)
+      _nearMonths = +opts.nearMonths
       _showWD = !!opts.showWeekdays
       _minDate = new Date(opts.minDate) if opts.minDate
       _maxDate = new Date(opts.maxDate) if opts.maxDate
-      _firstDay = parseInt(opts.firstDay) # TODO
+      # _firstDay = +opts.firstDay # TODO
 
       _weekPart = _tpl.week.split('|')
       _monthPart = _tpl.month.split('|')
@@ -237,14 +234,14 @@ Released under the MIT license
     )
 
   # Defaults
-  $.fn.yacal.defaults = {
-    date: new Date(),
-    nearMonths: 0,
-    showWeekdays: 1,
-    minDate: null,
-    maxDate: null,
-    firstDay: 0,
-    tpl: {
+  $.fn.yacal.defaults =
+    date: new Date()
+    nearMonths: 0
+    showWeekdays: 1
+    minDate: null
+    maxDate: null
+    firstDay: 0
+    tpl:
       day: tag('a','day d'+_ph.dw+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a,
                _ph.d,'time="'+_ph.dt+'"')
       weekday: tag('i','wday wd'+_ph.wd,_ph.wdn)
@@ -255,18 +252,15 @@ Released under the MIT license
                 tag('a','next',tag('span',null,_ph.next)))
       wrap: tag('div','wrap')
       clearfix: tag('div','clearfix')
-    }
-    i18n: {
+    i18n:
       weekdays: ['Su','Mo','Tu','We','Th','Fr','Sa'],
       months: ['Jan','Feb','Mar','Apr','May','Jun',
                'Jul','Aug','Sep','Oct','Nov','Dec'],
       prev: 'prev',
       next: 'next',
-    }
-  }
 
   # Version number
-  $.fn.yacal.version = '0.3.0';
+  $.fn.yacal.version = _version;
 
   # Autoinitialize .yacal elements on load
   $('.' + _name).yacal()

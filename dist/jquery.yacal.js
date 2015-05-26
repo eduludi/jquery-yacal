@@ -14,8 +14,9 @@ Released under the MIT license
  */
 (function($, doc, win) {
   "use strict";
-  var _eStr, _msInDay, _name, _ph, changeMonth, getDaysInMonth, getWeekEnd, getWeekNumber, getWeekStart, inRange, isDate, isLeapYear, isToday, isWeekend, tag, zeroHour;
+  var _eStr, _msInDay, _name, _ph, _version, changeMonth, getDaysInMonth, getWeekEnd, getWeekNumber, getWeekStart, inRange, isDate, isLeapYear, isToday, isWeekend, tag, zeroHour;
   _name = 'yacal';
+  _version = '0.3.1';
   _msInDay = 86400000;
   _eStr = '';
   _ph = {
@@ -117,11 +118,11 @@ Released under the MIT license
         if (nav == null) {
           nav = false;
         }
-        totalDays = getDaysInMonth(date.getYear(), date.getMonth());
+        d = 0;
+        out = _eStr;
         month = date.getMonth();
         year = date.getFullYear();
-        out = _eStr;
-        d = 0;
+        totalDays = getDaysInMonth(date.getYear(), date.getMonth());
         if (_showWD) {
           wd = 0;
           out += _weekPart[0].replace(_ph.w, wd).replace(_ph.wt, _eStr).replace(_ph.ws, _eStr);
@@ -183,7 +184,7 @@ Released under the MIT license
       _d = _s = new Date(opts.date);
       _tpl = opts.tpl;
       _i18n = opts.i18n;
-      _nearMonths = parseInt(opts.nearMonths);
+      _nearMonths = +opts.nearMonths;
       _showWD = !!opts.showWeekdays;
       if (opts.minDate) {
         _minDate = new Date(opts.minDate);
@@ -191,7 +192,6 @@ Released under the MIT license
       if (opts.maxDate) {
         _maxDate = new Date(opts.maxDate);
       }
-      _firstDay = parseInt(opts.firstDay);
       _weekPart = _tpl.week.split('|');
       _monthPart = _tpl.month.split('|');
       return renderCalendar(this);
@@ -220,6 +220,6 @@ Released under the MIT license
       next: 'next'
     }
   };
-  $.fn.yacal.version = '0.3.0';
+  $.fn.yacal.version = _version;
   return $('.' + _name).yacal();
 })(jQuery, document, window);

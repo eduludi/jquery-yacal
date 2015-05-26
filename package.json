@@ -1,0 +1,28 @@
+{
+  "name": "jquery-yacaljs",
+  "version": "0.3.1",
+  "description": "Yet Another Calendar plugin for jQuery",
+  "main": "dist/jquery.yacal.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eduludi/jquery-yacal.git"
+  },
+  "keywords": [
+    "jquery-plugin",
+    "calendar",
+    "jquery",
+    "plugin",
+    "lightweight",
+    "i18n",
+    "templates"
+  ],
+  "author": "Eduardo Ludi <edu.ludi@gmail.com> (https://www.npmjs.com/~eduludi)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eduludi/jquery-yacal/issues"
+  },
+  "homepage": "https://github.com/eduludi/jquery-yacal"
+}
