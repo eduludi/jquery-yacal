@@ -217,6 +217,25 @@ $('.calendar').yacal({
 });
 ```
 
+## Coffeescript compilation
+
+Yacal source is written in [Coffeescript](http://coffeescript.org) and is compiled and minfied using [Gulp](http://gulpjs.com).
+
+If you want to use this Gulp task to complile and minify the code, you should install the project dependencies using [Node's](https://nodejs.org) `npm`:
+
+```bash
+$ npm install
+```
+Once the dependencies are satisfied, you can run the watch task:
+
+```bash
+$ gulp watch
+```
+As you make changes and save the source code, this will watch for those changes and output two files in the `dist` folder:
+
+* **jquery.yacal.js**: uncompressed, for development (~7.8k)
+* **jquery.yacal.min.js** compressed, for production (~3.5k)
+
 ## ToDos and ideas
 
 * Timezone support
@@ -225,11 +244,11 @@ $('.calendar').yacal({
 	* Ideas?
 * Move I18n and Localization to a separate file. 
 * Bower support (do some testing)
-* Navigation (prev/next year) ?
+* Navigation (prev/next year)
 
 ## Authors
 
 - [Eduardo Ludi](http://github.com/eduludi)
 
-- Some functions took from [Pickaday](https://github.com/dbushell/Pikaday)
+- Some functions ideas has been taken from [Pickaday](https://github.com/dbushell/Pikaday)
 (David Bushell @dbushell and Ramiro Rikkert @RamRik)

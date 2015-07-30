@@ -1,5 +1,5 @@
-###
-jQuery yacal Plugin v0.2.0
+###!
+jQuery Yacal Plugin v0.2.0
 https://github.com/eduludi/jquery-yacal
 
 Authors:
@@ -15,7 +15,7 @@ Released under the MIT license
   "use strict"
 
   _name = 'yacal' # plugin's name
-  _version = '0.3.1'
+  _version = '0.3.2'
 
   _msInDay = 86400000 # milliseconds in a day
   _eStr = '' # empty string
@@ -42,7 +42,7 @@ Released under the MIT license
     next: '#next#'
 
   isDate = (obj) ->
-    (/Date/).test(Object.prototype.toString.call(obj)) and !isNaN(obj.getTime())
+    (/Date/).test(Object.prototype.toString.call(obj)) and !isNaN(+obj)
 
   isWeekend = (date) ->
     date.getDay() in [0,6]
@@ -84,7 +84,7 @@ Released under the MIT license
     new Date(zeroHour(date) - date.getDay()*_msInDay)
 
   getWeekEnd = (weekStartDate) ->
-    new Date(weekStartDate.getTime() + (7 * _msInDay) - 1)
+    new Date(+weekStartDate + (7 * _msInDay) - 1)
 
   changeMonth = (date,amount) ->
     new Date(date.getFullYear(),(date.getMonth() + amount),1)
@@ -101,25 +101,25 @@ Released under the MIT license
 
     this.each( (index) ->
       
-      # _d = Current date, _s = Selected date
-      _d = _s = null
+      # _date = Current date, _selected = Selected date
+      _date = _selected = null
 
       # template  & internationalization settings
       _tpl = {}
       _i18n = {}
 
       # other settings
-      _nearMonths = _showWD = _minDate = _maxDate = _firstDay = null
+      _nearMonths = _wdays = _minDate = _maxDate = _firstDay = null
 
       # runtime templates parts
       _weekPart = _monthPart = null
 
       # Instance Methods
       isSelected = (date) ->
-        zeroHour(_s) == zeroHour(date)
+        zeroHour(_selected) == zeroHour(date)
 
       isSelectedWeek = (wStart) ->
-        inRange(_s,wStart,getWeekEnd(wStart))
+        inRange(_selected,wStart,getWeekEnd(wStart))
 
       renderNav = () ->
         _tpl.nav.replace(_ph.prev,_i18n.prev)
@@ -127,7 +127,7 @@ Released under the MIT license
 
       renderDay = (date) ->
         _tpl.day.replace(_ph.d, date.getDate())
-                .replace(_ph.dt, date.getTime())
+                .replace(_ph.dt, +date)
                 .replace(_ph.dw, date.getDay())
                 .replace(_ph.we, if isWeekend(date) then ' weekend' else _eStr)
                 .replace(_ph.t, if isToday(date) then ' today' else _eStr)
@@ -142,7 +142,7 @@ Released under the MIT license
         totalDays = getDaysInMonth(date.getYear(),date.getMonth())
 
         # weekdays
-        if _showWD
+        if _wdays
           wd = 0
           out += _weekPart[0].replace(_ph.w,wd)
                               .replace(_ph.wt,_eStr)
@@ -180,23 +180,23 @@ Released under the MIT license
         cal = $(element)
 
         if move
-          _d = changeMonth(_d,move)
+          _date = changeMonth(_date,move)
 
         # Render previous month[s]
         if _nearMonths
           pm = _nearMonths
           while pm > 0
-            out += renderMonth(changeMonth(_d,-pm))
+            out += renderMonth(changeMonth(_date,-pm))
             pm--
 
         # Render selected month
-        out += renderMonth(_d,true);
+        out += renderMonth(_date,true);
 
         # Render next[s] month[s]
         if _nearMonths
           nm = 1
           while nm <= _nearMonths
-            out += renderMonth(changeMonth(_d,+nm))
+            out += renderMonth(changeMonth(_date,+nm))
             nm++
 
         # add wrap, nav, output, and clearfix to the dom element
@@ -218,11 +218,11 @@ Released under the MIT license
       opts = $.extend( true, {}, opts, $(this).data() ) if ($(this).data())
 
       # Config
-      _d = _s = new Date(opts.date) # Ensures get a date
+      _date = _selected = new Date(opts.date) # Ensures get a date
       _tpl = opts.tpl
       _i18n = opts.i18n
       _nearMonths = +opts.nearMonths
-      _showWD = !!opts.showWeekdays
+      _wdays = !!opts.showWeekdays
       _minDate = new Date(opts.minDate) if opts.minDate
       _maxDate = new Date(opts.maxDate) if opts.maxDate
       # _firstDay = +opts.firstDay # TODO
