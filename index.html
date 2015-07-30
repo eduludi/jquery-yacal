@@ -285,6 +285,28 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 });</pre></div>
 
 <h2>
+<a id="coffeescript-compilation" class="anchor" href="#coffeescript-compilation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Coffeescript compilation</h2>
+
+<p>Yacal source is written in <a href="http://coffeescript.org">Coffeescript</a> and is compiled and minfied using <a href="http://gulpjs.com">Gulp</a>.</p>
+
+<p>If you want to use this Gulp task to complile and minify the code, you should install the project dependencies using <a href="https://nodejs.org">Node's</a> <code>npm</code>:</p>
+
+<div class="highlight highlight-bash"><pre>$ npm install</pre></div>
+
+<p>Once the dependencies are satisfied, you can run the watch task:</p>
+
+<div class="highlight highlight-bash"><pre>$ gulp watch</pre></div>
+
+<p>As you make changes and save the source code, this will watch for those changes and output two files in the <code>dist</code> folder:</p>
+
+<ul>
+<li>
+<strong>jquery.yacal.js</strong>: uncompressed, for development (~7.8k)</li>
+<li>
+<strong>jquery.yacal.min.js</strong> compressed, for production (~3.5k)</li>
+</ul>
+
+<h2>
 <a id="todos-and-ideas" class="anchor" href="#todos-and-ideas" aria-hidden="true"><span class="octicon octicon-link"></span></a>ToDos and ideas</h2>
 
 <ul>
@@ -298,7 +320,7 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 </li>
 <li>Move I18n and Localization to a separate file. </li>
 <li>Bower support (do some testing)</li>
-<li>Navigation (prev/next year) ?</li>
+<li>Navigation (prev/next year)</li>
 </ul>
 
 <h2>
@@ -306,7 +328,7 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <ul>
 <li><p><a href="http://github.com/eduludi">Eduardo Ludi</a></p></li>
-<li><p>Some functions took from <a href="https://github.com/dbushell/Pikaday">Pickaday</a>
+<li><p>Some functions ideas has been taken from <a href="https://github.com/dbushell/Pikaday">Pickaday</a>
 (David Bushell <a href="https://github.com/dbushell" class="user-mention">@dbushell</a> and Ramiro Rikkert @RamRik)</p></li>
 </ul>
       </section>
