@@ -29,3 +29,5 @@ gulp.task('compileCoffee', function() {
 gulp.task('watch',function() {
 	gulp.watch(src,['compileCoffee']);
 });
+
+gulp.task('default', ['compileCoffee', 'watch']);
