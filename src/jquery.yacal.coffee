@@ -23,6 +23,7 @@ Released under the MIT license
   # placeholders
   _ph =
     d: '#day#'
+    dc: '#dayclass#'
     dt: '#time#'
     dw: '#dayWeek#'
     we: '#weekend#'
@@ -109,7 +110,7 @@ Released under the MIT license
       _i18n = {}
 
       # other settings
-      _nearMonths = _wdays = _minDate = _maxDate = _firstDay = _pageSize = _isActive = null
+      _nearMonths = _wdays = _minDate = _maxDate = _firstDay = _pageSize = _isActive = _dayClass = null
 
       # runtime templates parts
       _weekPart = _monthPart = null
@@ -133,6 +134,7 @@ Released under the MIT license
                 .replace(_ph.t, if isToday(date) then ' today' else _eStr)
                 .replace(_ph.s, if isSelected(date) then ' selected' else _eStr)
                 .replace(_ph.a, if inRange(date,_minDate,_maxDate) and _isActive?(date) ? true then ' active' else _eStr)
+                .replace(_ph.dc, ' ' + (_dayClass?(date) ? _eStr))
       
       renderMonth = (date,nav=false) ->
         d = 0
@@ -227,6 +229,7 @@ Released under the MIT license
       _maxDate = new Date(opts.maxDate) if opts.maxDate
       _pageSize = opts.pageSize ? 1
       _isActive = opts.isActive
+      _dayClass = opts.dayClass
       
       # _firstDay = +opts.firstDay # TODO
 
@@ -246,7 +249,7 @@ Released under the MIT license
     firstDay: 0
     pageSize: 1
     tpl:
-      day: tag('a','day d'+_ph.dw+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a,
+      day: tag('a','day d'+_ph.dw+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a+''+_ph.dc,
                _ph.d,'time="'+_ph.dt+'"')
       weekday: tag('i','wday wd'+_ph.wd,_ph.wdn)
       week: tag('div','week w'+_ph.w+_ph.ws,'|','time="'+_ph.wt+'"')

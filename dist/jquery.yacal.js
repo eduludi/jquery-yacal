@@ -22,6 +22,7 @@ Released under the MIT license
     _eStr = '';
     _ph = {
       d: '#day#',
+      dc: '#dayclass#',
       dt: '#time#',
       dw: '#dayWeek#',
       we: '#weekend#',
@@ -96,11 +97,11 @@ Released under the MIT license
     };
     $.fn.yacal = function(options) {
       return this.each(function(index) {
-        var _date, _firstDay, _i18n, _isActive, _maxDate, _minDate, _monthPart, _nearMonths, _pageSize, _selected, _tpl, _wdays, _weekPart, isSelected, isSelectedWeek, opts, ref, renderCalendar, renderDay, renderMonth, renderNav;
+        var _date, _dayClass, _firstDay, _i18n, _isActive, _maxDate, _minDate, _monthPart, _nearMonths, _pageSize, _selected, _tpl, _wdays, _weekPart, isSelected, isSelectedWeek, opts, ref, renderCalendar, renderDay, renderMonth, renderNav;
         _date = _selected = null;
         _tpl = {};
         _i18n = {};
-        _nearMonths = _wdays = _minDate = _maxDate = _firstDay = _pageSize = _isActive = null;
+        _nearMonths = _wdays = _minDate = _maxDate = _firstDay = _pageSize = _isActive = _dayClass = null;
         _weekPart = _monthPart = null;
         isSelected = function(date) {
           return zeroHour(_selected) === zeroHour(date);
@@ -112,8 +113,8 @@ Released under the MIT license
           return _tpl.nav.replace(_ph.prev, _i18n.prev).replace(_ph.next, _i18n.next);
         };
         renderDay = function(date) {
-          var ref;
-          return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, +date).replace(_ph.dw, date.getDay()).replace(_ph.we, isWeekend(date) ? ' weekend' : _eStr).replace(_ph.t, isToday(date) ? ' today' : _eStr).replace(_ph.s, isSelected(date) ? ' selected' : _eStr).replace(_ph.a, ((ref = inRange(date, _minDate, _maxDate) && (typeof _isActive === "function" ? _isActive(date) : void 0)) != null ? ref : true) ? ' active' : _eStr);
+          var ref, ref1;
+          return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, +date).replace(_ph.dw, date.getDay()).replace(_ph.we, isWeekend(date) ? ' weekend' : _eStr).replace(_ph.t, isToday(date) ? ' today' : _eStr).replace(_ph.s, isSelected(date) ? ' selected' : _eStr).replace(_ph.a, ((ref1 = inRange(date, _minDate, _maxDate) && (typeof _isActive === "function" ? _isActive(date) : void 0)) != null ? ref1 : true) ? ' active' : _eStr).replace(_ph.dc, ' ' + ((ref = typeof _dayClass === "function" ? _dayClass(date) : void 0) != null ? ref : _eStr));
         };
         renderMonth = function(date, nav) {
           var d, day, month, out, selWeek, totalDays, wStart, wd, year;
@@ -196,6 +197,7 @@ Released under the MIT license
         }
         _pageSize = (ref = opts.pageSize) != null ? ref : 1;
         _isActive = opts.isActive;
+        _dayClass = opts.dayClass;
         _weekPart = _tpl.week.split('|');
         _monthPart = _tpl.month.split('|');
         return renderCalendar(this);
@@ -210,7 +212,7 @@ Released under the MIT license
       firstDay: 0,
       pageSize: 1,
       tpl: {
-        day: tag('a', 'day d' + _ph.dw + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a, _ph.d, 'time="' + _ph.dt + '"'),
+        day: tag('a', 'day d' + _ph.dw + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a + '' + _ph.dc, _ph.d, 'time="' + _ph.dt + '"'),
         weekday: tag('i', 'wday wd' + _ph.wd, _ph.wdn),
         week: tag('div', 'week w' + _ph.w + _ph.ws, '|', 'time="' + _ph.wt + '"'),
         month: tag('div', 'month m' + _ph.m, tag('h4', null, _ph.mnam + ' ' + _ph.y) + '|'),
