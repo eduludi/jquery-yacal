@@ -90,17 +90,16 @@ In yacal is possible to configure the resulting output. The plugin provides acce
 	...
 	<clearfix/>
 </wrap>
-``` 
+```
 
 Default templates:
-
 ```javascript
 $('.calendar').yacal({
   tpl: { 
     day: '<a class="day d#weekday##weekend##today##selected#" href="##timestamp#">#day#</a>',
     weekday: '<i class="weekday wd#weekday#">#weekdayName#</i>',
     week: '<div class="week week#week##weekSelected#" data-time="#weekTime#">|</div>',
-    month: '<div class="month #monthNumber#"><h4>#monthName# #year#</h4>|</div>',
+    month: '<div class="month #month#"><h4>#monthName# #year#</h4>|</div>',
     nav: '<div class="yclNav">'+
            '<a class="prev"><span>#prev#</span></a>'+
            '<a class="pext"><span>#next#</span></a>'+
