@@ -58,7 +58,7 @@
 
 <p><strong>yacal</strong> only requires <a href="http://jquery.com">jQuery</a> (&gt;= v1.8.x) as dependency. So, just include the script <em>after</em> the jQuery library (unless you are packaging scripts somehow else):</p>
 
-<div class="highlight highlight-html"><pre><span class="pl-c">&lt;!-- uncompressed (~7.2kb, for development) --&gt;</span> 
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-c">&lt;!-- uncompressed (~7.2kb, for development) --&gt;</span> 
 &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>/path/to/jquery.yacal.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
 
 <span class="pl-c">&lt;!-- OR compressed (~3.5kb, for production) --&gt;</span> 
@@ -74,14 +74,14 @@
 <h3>
 <a id="with-data--attributes" class="anchor" href="#with-data--attributes" aria-hidden="true"><span class="octicon octicon-link"></span></a>With <code>data-*</code> attributes</h3>
 
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>yacal<span class="pl-pds">"</span></span> <span class="pl-e">data-date</span>=<span class="pl-s"><span class="pl-pds">"</span>2020/10/26<span class="pl-pds">"</span></span> <span class="pl-e">data-near-months</span>=<span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>yacal<span class="pl-pds">"</span></span> <span class="pl-e">data-date</span>=<span class="pl-s"><span class="pl-pds">"</span>2020/10/26<span class="pl-pds">"</span></span> <span class="pl-e">data-near-months</span>=<span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
 
 <h3>
 <a id="with-javascript" class="anchor" href="#with-javascript" aria-hidden="true"><span class="octicon octicon-link"></span></a>with Javascript</h3>
 
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>calendar2000<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>calendar2000<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
 
-<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>#calendar2000<span class="pl-pds">'</span></span>).yacal({
+<div class="highlight highlight-source-js"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>#calendar2000<span class="pl-pds">'</span></span>).yacal({
     date<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>2000/1/1<span class="pl-pds">'</span></span>,
     nearmonths<span class="pl-k">:</span> <span class="pl-c1">1</span>,
 });</pre></div>
@@ -89,7 +89,7 @@
 <h3>
 <a id="default-configurations" class="anchor" href="#default-configurations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Default Configurations</h3>
 
-<div class="highlight highlight-javascript"><pre>options <span class="pl-k">=</span> {
+<div class="highlight highlight-source-js"><pre>options <span class="pl-k">=</span> {
     date<span class="pl-k">:</span> <span class="pl-k">new</span> <span class="pl-en">Date</span>(),    <span class="pl-c">// Sets the date. i.e: '2010/10/10', '2012/06' , default is now</span>
     nearMonths<span class="pl-k">:</span> <span class="pl-c1">0</span>,       <span class="pl-c">// How many months will be displayed to each side. Default is 0</span>
     showWeekdays<span class="pl-k">:</span> <span class="pl-c1">true</span>,  <span class="pl-c">// Toggles the week days ('Su','Mo','Tu',etc). Default is true</span>
@@ -110,7 +110,7 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <p>In yacal is possible to configure the resulting output. The plugin provides access to all the templates used in the rendering. Just keep in mind that every month has this structure:</p>
 
-<div class="highlight highlight-html"><pre><span class="pl-c">&lt;!-- pseudo-html --&gt;</span>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-c">&lt;!-- pseudo-html --&gt;</span>
 &lt;<span class="pl-ent">wrap</span>&gt;
     &lt;<span class="pl-ent">nav</span>/&gt;
     &lt;<span class="pl-ent">month</span>&gt;
@@ -129,9 +129,9 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <p>Default templates:</p>
 
-<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
+<div class="highlight highlight-source-js"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
   tpl<span class="pl-k">:</span> { 
-    day<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="day d#weekday##weekend##today##selected#" href="##timestamp#"&gt;#day#&lt;/a&gt;<span class="pl-pds">'</span></span>,
+    day<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="day d#weekday##weekend##today##selected##active#" data-time="##time#"&gt;#day#&lt;/a&gt;<span class="pl-pds">'</span></span>,
     weekday<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;i class="weekday wd#weekday#"&gt;#weekdayName#&lt;/i&gt;<span class="pl-pds">'</span></span>,
     week<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="week week#week##weekSelected#" data-time="#weekTime#"&gt;|&lt;/div&gt;<span class="pl-pds">'</span></span>,
     month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month #month#"&gt;&lt;h4&gt;#monthName# #year#&lt;/h4&gt;|&lt;/div&gt;<span class="pl-pds">'</span></span>,
@@ -145,29 +145,33 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 });</pre></div>
 
 <blockquote>
-<p><strong>Note A</strong>: in <code>nav</code>'s template, <code>yclNav</code>, <code>prev</code> and <code>next</code> should stay within the <code>class</code> attributes of both nav links and the <code>yclNav</code> wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones. Example:</p>
+<p><strong>Note A</strong>: in <code>nav</code>'s template, <code>yclNav</code>, <code>prev</code> and <code>next</code> should stay within the <code>class</code> attributes of both nav links and the <code>yclNav</code> wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones. </p>
 
-<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
-  tpl<span class="pl-k">:</span> {
-    <span class="pl-c">// adds new classes ('myNav' and 'myNext'), </span>
-    <span class="pl-c">// but keeping the originals (`yclNav`, `prev` and `next`)</span>
-    nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="yclNav myNav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
-           <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="prev"&gt;&lt;strong&gt;#prev#&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> 
-           <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="next myNext"&gt;&lt;strong&gt;#next#&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
-         <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
-  }
-});</pre></div>
+<p>Example:</p>
 
-<p><strong>Note B</strong>: in <code>week</code>'s and <code>month</code>'s templates, there are pipe characters, <code>|</code>, that are also required. Is there where week's days will be placed. Example:</p>
+<div class="highlight highlight-source-js"><pre>  $(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
+    tpl<span class="pl-k">:</span> {
+      <span class="pl-c">// adds new classes ('myNav' and 'myNext'), </span>
+      <span class="pl-c">// but keeping the originals (`yclNav`, `prev` and `next`)</span>
+      nav<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="yclNav myNav"&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+             <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="prev"&gt;&lt;strong&gt;#prev#&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span> 
+             <span class="pl-s"><span class="pl-pds">'</span>&lt;a class="next myNext"&gt;&lt;strong&gt;#next#&lt;/strong&gt;&lt;/a&gt;<span class="pl-pds">'</span></span><span class="pl-k">+</span>
+           <span class="pl-s"><span class="pl-pds">'</span>&lt;/div&gt;<span class="pl-pds">'</span></span>
+    }
+  });</pre></div>
 
-<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
-  tpl<span class="pl-k">:</span> {
-    <span class="pl-c">// Don't render weeks</span>
-    week<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>|<span class="pl-pds">'</span></span>,
-    <span class="pl-c">// Simplifies the month header</span>
-    month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month"&gt;&lt;h2&gt;#monthName#&lt;/h2&gt;|&lt;/div&gt;<span class="pl-pds">'</span></span>,
-  }
-});</pre></div>
+<p><strong>Note B</strong>: in <code>week</code>'s and <code>month</code>'s templates, there are pipe characters, <code>|</code>, that are also required. Is there where week's days will be placed.</p>
+
+<p>Example:</p>
+
+<div class="highlight highlight-source-js"><pre>  $(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
+    tpl<span class="pl-k">:</span> {
+      <span class="pl-c">// Don't render weeks</span>
+      week<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>|<span class="pl-pds">'</span></span>,
+      <span class="pl-c">// Simplifies the month header</span>
+      month<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;div class="month"&gt;&lt;h2&gt;#monthName#&lt;/h2&gt;|&lt;/div&gt;<span class="pl-pds">'</span></span>,
+    }
+  });</pre></div>
 </blockquote>
 
 <h4>
@@ -252,7 +256,7 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <p>Defaults:</p>
 
-<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
+<div class="highlight highlight-source-js"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
   i18n<span class="pl-k">:</span> {
     weekdays<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Su<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mo<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Tu<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>We<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Th<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Fr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sa<span class="pl-pds">'</span></span>],
     months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Jan<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Feb<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mar<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Apr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jun<span class="pl-pds">'</span></span>,
@@ -267,7 +271,7 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <p>Spanish version</p>
 
-<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
+<div class="highlight highlight-source-js"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
   i18n<span class="pl-k">:</span> {
     weekdays<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Do<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Lu<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Ma<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mi<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Ju<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Vi<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Sa<span class="pl-pds">'</span></span>],
     months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>Ene<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Feb<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Mar<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Abr<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Jun<span class="pl-pds">'</span></span>,
@@ -277,7 +281,7 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <p>English long months names</p>
 
-<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
+<div class="highlight highlight-source-js"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>.calendar<span class="pl-pds">'</span></span>).yacal({
   i18n<span class="pl-k">:</span> {
     months<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>January<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>February<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Marz<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>April<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>May<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>June<span class="pl-pds">'</span></span>,
              <span class="pl-s"><span class="pl-pds">'</span>July<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>August<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>September<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>October<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>November<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>December<span class="pl-pds">'</span></span>],
@@ -291,11 +295,11 @@ $(<span class="pl-s"><span class="pl-pds">'</span>#aDefaultCalendar<span class="
 
 <p>If you want to use this Gulp task to complile and minify the code, you should install the project dependencies using <a href="https://nodejs.org">Node's</a> <code>npm</code>:</p>
 
-<div class="highlight highlight-bash"><pre>$ npm install</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ npm install</pre></div>
 
 <p>Once the dependencies are satisfied, you can run the watch task:</p>
 
-<div class="highlight highlight-bash"><pre>$ gulp watch</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ gulp watch</pre></div>
 
 <p>As you make changes and save the source code, this will watch for those changes and output two files in the <code>dist</code> folder:</p>
 
