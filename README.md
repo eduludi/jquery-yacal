@@ -60,10 +60,57 @@ options = {
 	minDate: null,       // Sets the minimal date range (inclusive). For markup only. Default is null
 	maxDate: null,       // Sets the maximal date range (inclusive). For markup only. Default is null
 	//firstDay: 0,       // Sets the first day of the week. Default is 0 (Sunday) (TODO)
+  isActive: null,      // function to set active class name on each specific days
+  dayClass: null,      // function to adds additional custom classes to days
 });
 
 $('#aDefaultCalendar').yacal(options);
 ```
+
+
+### Helpers
+
+#### `isActive`
+isActive is a helper function you can pass in on the options that will get called for each day and passed the date. You can return true or false as to whether the date should be active or not (get the active css class applied). This is basically an enhancement of the minDate/maxDate options that lets you set the active class separately for each date, rather than just starting at minDate or ending at maxDate.
+
+It is useful to have a setting of active based on each specific day.
+
+If you do something like:
+
+```javascript
+var unavailable = [
+   { Arrival: new Date(2015, 12, 1), Departure: new Date(2015, 12, 10) },
+   { Arrival: new Date(2015, 10, 3), Departure: new Date(2015, 10, 4) }
+];
+
+$('#calendar').yacal({
+  isActive: function(date)
+  {
+    for (var i = 0; i < unavailable.length; i++) 
+    {
+      if (date.valueOf() >= unavailable[i].Arrival).valueOf() && date.valueOf() <= unavailable[i].valueOf())
+          return false;
+    }
+    return true;
+  }
+});
+```
+
+#### `dayClass`
+
+dayClass is a helper function that adds additional custom classes to days.
+
+```javascript
+$('#calendar').yacal({
+  dayClass: function(date) {
+     if (date.getDate() % 2)
+      return "odd";
+     else
+      return "even";
+  });
+});
+```
+
 
 ## CSS Styles
 
@@ -138,7 +185,6 @@ $('.calendar').yacal({
     }
   });
   ```
-
 
 #### Templates Placeholders
 

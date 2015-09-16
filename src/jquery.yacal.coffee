@@ -15,7 +15,7 @@ Released under the MIT license
   "use strict"
 
   _name = 'yacal' # plugin's name
-  _version = '0.4.0'
+  _version = '0.5.0'
 
   _msInDay = 86400000 # milliseconds in a day
   _eStr = '' # empty string
