@@ -96,7 +96,7 @@ Default templates:
 ```javascript
 $('.calendar').yacal({
   tpl: { 
-    day: '<a class="day d#weekday##weekend##today##selected#" href="##timestamp#">#day#</a>',
+    day: '<a class="day d#weekday##weekend##today##selected##active#" data-time="##time#">#day#</a>',
     weekday: '<i class="weekday wd#weekday#">#weekdayName#</i>',
     week: '<div class="week week#week##weekSelected#" data-time="#weekTime#">|</div>',
     month: '<div class="month #month#"><h4>#monthName# #year#</h4>|</div>',
@@ -109,33 +109,35 @@ $('.calendar').yacal({
   }
 });
 ```
-> **Note A**: in `nav`'s template, `yclNav`, `prev` and `next` should stay within the `class` attributes of both nav links and the `yclNav` wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones. Example:
+  > **Note A**: in `nav`'s template, `yclNav`, `prev` and `next` should stay within the `class` attributes of both nav links and the `yclNav` wrapper, as they are required to navigate between months. Is possible to add your own classes, but don't remove these original ones. 
 
-> ```javascript
-$('.calendar').yacal({
-  tpl: {
-    // adds new classes ('myNav' and 'myNext'), 
-    // but keeping the originals (`yclNav`, `prev` and `next`)
-    nav: '<div class="yclNav myNav">'+
-           '<a class="prev"><strong>#prev#</strong></a>'+ 
-           '<a class="next myNext"><strong>#next#</strong></a>'+
-         '</div>'
-  }
-});
-> ```
+  > Example:
+  ```javascript
+  $('.calendar').yacal({
+    tpl: {
+      // adds new classes ('myNav' and 'myNext'), 
+      // but keeping the originals (`yclNav`, `prev` and `next`)
+      nav: '<div class="yclNav myNav">'+
+             '<a class="prev"><strong>#prev#</strong></a>'+ 
+             '<a class="next myNext"><strong>#next#</strong></a>'+
+           '</div>'
+    }
+  });
+  ```
 
-> **Note B**: in `week`'s and `month`'s templates, there are pipe characters, `|`, that are also required. Is there where week's days will be placed. Example:
+  > **Note B**: in `week`'s and `month`'s templates, there are pipe characters, `|`, that are also required. Is there where week's days will be placed.
 
-> ```javascript
-$('.calendar').yacal({
-  tpl: {
-  	// Don't render weeks
-    week: '|',
-    // Simplifies the month header
-    month: '<div class="month"><h2>#monthName#</h2>|</div>',
-  }
-});
-> ```
+  > Example:
+  ```javascript
+  $('.calendar').yacal({
+    tpl: {
+      // Don't render weeks
+      week: '|',
+      // Simplifies the month header
+      month: '<div class="month"><h2>#monthName#</h2>|</div>',
+    }
+  });
+  ```
 
 
 #### Templates Placeholders

@@ -15,13 +15,13 @@ Released under the MIT license
   "use strict";
   var _eStr, _msInDay, _name, _ph, _version, changeMonth, getDaysInMonth, getWeekEnd, getWeekNumber, getWeekStart, inRange, isDate, isLeapYear, isToday, isWeekend, tag, zeroHour;
   _name = 'yacal';
-  _version = '0.3.2';
+  _version = '0.4.0';
   _msInDay = 86400000;
   _eStr = '';
   _ph = {
     d: '#day#',
     dt: '#time#',
-    dw: '#dayWeek#',
+    wd: '#weekday#',
     we: '#weekend#',
     t: '#today#',
     s: '#selected#',
@@ -29,7 +29,6 @@ Released under the MIT license
     w: '#week#',
     ws: '#weekSelected#',
     wt: '#weekTime#',
-    wd: '#weekday#',
     wdn: '#weekdayName#',
     m: '#month#',
     mnam: '#monthName#',
@@ -110,7 +109,8 @@ Released under the MIT license
         return _tpl.nav.replace(_ph.prev, _i18n.prev).replace(_ph.next, _i18n.next);
       };
       renderDay = function(date) {
-        return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, +date).replace(_ph.dw, date.getDay()).replace(_ph.we, isWeekend(date) ? ' weekend' : _eStr).replace(_ph.t, isToday(date) ? ' today' : _eStr).replace(_ph.s, isSelected(date) ? ' selected' : _eStr).replace(_ph.a, inRange(date, _minDate, _maxDate) ? ' active' : _eStr);
+        console.log(date.getDay());
+        return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, +date).replace(_ph.wd, date.getDay()).replace(_ph.we, isWeekend(date) ? ' weekend' : _eStr).replace(_ph.t, isToday(date) ? ' today' : _eStr).replace(_ph.s, isSelected(date) ? ' selected' : _eStr).replace(_ph.a, inRange(date, _minDate, _maxDate) ? ' active' : _eStr);
       };
       renderMonth = function(date, nav) {
         var d, day, month, out, selWeek, totalDays, wStart, wd, year;
@@ -204,7 +204,7 @@ Released under the MIT license
     maxDate: null,
     firstDay: 0,
     tpl: {
-      day: tag('a', 'day d' + _ph.dw + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a, _ph.d, 'time="' + _ph.dt + '"'),
+      day: tag('a', 'day d' + _ph.wd + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a, _ph.d, 'time="' + _ph.dt + '"'),
       weekday: tag('i', 'wday wd' + _ph.wd, _ph.wdn),
       week: tag('div', 'week w' + _ph.w + _ph.ws, '|', 'time="' + _ph.wt + '"'),
       month: tag('div', 'month m' + _ph.m, tag('h4', null, _ph.mnam + ' ' + _ph.y) + '|'),
