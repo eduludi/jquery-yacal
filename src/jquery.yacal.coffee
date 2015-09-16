@@ -126,7 +126,6 @@ Released under the MIT license
                 .replace(_ph.next,_i18n.next)
 
       renderDay = (date) ->
-        console.log date.getDay()
         _tpl.day.replace(_ph.d, date.getDate())
                 .replace(_ph.dt, +date)
                 .replace(_ph.wd, date.getDay())
