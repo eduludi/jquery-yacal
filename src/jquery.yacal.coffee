@@ -23,6 +23,7 @@ Released under the MIT license
   # placeholders
   _ph =
     d: '#day#'
+    dc: '#dayclass#'
     dt: '#time#'
     wd: '#weekday#'
     we: '#weekend#'
@@ -102,13 +103,13 @@ Released under the MIT license
       
       # _date = Current date, _selected = Selected date
       _date = _selected = null
-
+      
       # template  & internationalization settings
       _tpl = {}
       _i18n = {}
 
       # other settings
-      _nearMonths = _wdays = _minDate = _maxDate = _firstDay = null
+      _nearMonths = _wdays = _minDate = _maxDate = _firstDay = _pageSize = _isActive = _dayClass = null
 
       # runtime templates parts
       _weekPart = _monthPart = null
@@ -132,7 +133,8 @@ Released under the MIT license
                 .replace(_ph.we, if isWeekend(date) then ' weekend' else _eStr)
                 .replace(_ph.t, if isToday(date) then ' today' else _eStr)
                 .replace(_ph.s, if isSelected(date) then ' selected' else _eStr)
-                .replace(_ph.a, if inRange(date,_minDate,_maxDate) then ' active' else _eStr)
+                .replace(_ph.a, if inRange(date,_minDate,_maxDate) and _isActive?(date) ? true then ' active' else _eStr)
+                .replace(_ph.dc, ' ' + (_dayClass?(date) ? _eStr))
       
       renderMonth = (date,nav=false) ->
         d = 0
@@ -206,8 +208,8 @@ Released under the MIT license
 
         # Navigation Events
         nav = cal.find('.yclNav')
-        nav.find('.prev').on 'click', -> renderCalendar(cal,-1)
-        nav.find('.next').on 'click', -> renderCalendar(cal,1)
+        nav.find('.prev').on 'click', -> renderCalendar(cal, -_pageSize)
+        nav.find('.next').on 'click', -> renderCalendar(cal, _pageSize)
 
       # End of instance methods -
 
@@ -225,6 +227,10 @@ Released under the MIT license
       _wdays = !!opts.showWeekdays
       _minDate = new Date(opts.minDate) if opts.minDate
       _maxDate = new Date(opts.maxDate) if opts.maxDate
+      _pageSize = opts.pageSize ? 1
+      _isActive = opts.isActive
+      _dayClass = opts.dayClass
+      
       # _firstDay = +opts.firstDay # TODO
 
       _weekPart = _tpl.week.split('|')
@@ -241,8 +247,9 @@ Released under the MIT license
     minDate: null
     maxDate: null
     firstDay: 0
+    pageSize: 1
     tpl:
-      day: tag('a','day d'+_ph.wd+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a,
+      day: tag('a','day d'+_ph.wd+''+_ph.we+''+_ph.t+''+_ph.s+''+_ph.a+''+_ph.dc,
                _ph.d,'time="'+_ph.dt+'"')
       weekday: tag('i','wday wd'+_ph.wd,_ph.wdn)
       week: tag('div','week w'+_ph.w+_ph.ws,'|','time="'+_ph.wt+'"')

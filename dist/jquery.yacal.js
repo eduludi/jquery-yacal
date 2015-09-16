@@ -15,11 +15,12 @@ Released under the MIT license
   "use strict";
   var _eStr, _msInDay, _name, _ph, _version, changeMonth, getDaysInMonth, getWeekEnd, getWeekNumber, getWeekStart, inRange, isDate, isLeapYear, isToday, isWeekend, tag, zeroHour;
   _name = 'yacal';
-  _version = '0.4.0';
+  _version = '0.5.0';
   _msInDay = 86400000;
   _eStr = '';
   _ph = {
     d: '#day#',
+    dc: '#dayclass#',
     dt: '#time#',
     wd: '#weekday#',
     we: '#weekend#',
@@ -93,11 +94,11 @@ Released under the MIT license
   };
   $.fn.yacal = function(options) {
     return this.each(function(index) {
-      var _date, _firstDay, _i18n, _maxDate, _minDate, _monthPart, _nearMonths, _selected, _tpl, _wdays, _weekPart, isSelected, isSelectedWeek, opts, renderCalendar, renderDay, renderMonth, renderNav;
+      var _date, _dayClass, _firstDay, _i18n, _isActive, _maxDate, _minDate, _monthPart, _nearMonths, _pageSize, _selected, _tpl, _wdays, _weekPart, isSelected, isSelectedWeek, opts, ref, renderCalendar, renderDay, renderMonth, renderNav;
       _date = _selected = null;
       _tpl = {};
       _i18n = {};
-      _nearMonths = _wdays = _minDate = _maxDate = _firstDay = null;
+      _nearMonths = _wdays = _minDate = _maxDate = _firstDay = _pageSize = _isActive = _dayClass = null;
       _weekPart = _monthPart = null;
       isSelected = function(date) {
         return zeroHour(_selected) === zeroHour(date);
@@ -109,8 +110,9 @@ Released under the MIT license
         return _tpl.nav.replace(_ph.prev, _i18n.prev).replace(_ph.next, _i18n.next);
       };
       renderDay = function(date) {
+        var ref, ref1;
         console.log(date.getDay());
-        return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, +date).replace(_ph.wd, date.getDay()).replace(_ph.we, isWeekend(date) ? ' weekend' : _eStr).replace(_ph.t, isToday(date) ? ' today' : _eStr).replace(_ph.s, isSelected(date) ? ' selected' : _eStr).replace(_ph.a, inRange(date, _minDate, _maxDate) ? ' active' : _eStr);
+        return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, +date).replace(_ph.wd, date.getDay()).replace(_ph.we, isWeekend(date) ? ' weekend' : _eStr).replace(_ph.t, isToday(date) ? ' today' : _eStr).replace(_ph.s, isSelected(date) ? ' selected' : _eStr).replace(_ph.a, ((ref1 = inRange(date, _minDate, _maxDate) && (typeof _isActive === "function" ? _isActive(date) : void 0)) != null ? ref1 : true) ? ' active' : _eStr).replace(_ph.dc, ' ' + ((ref = typeof _dayClass === "function" ? _dayClass(date) : void 0) != null ? ref : _eStr));
       };
       renderMonth = function(date, nav) {
         var d, day, month, out, selWeek, totalDays, wStart, wd, year;
@@ -170,10 +172,10 @@ Released under the MIT license
         cal.html('').append($(_tpl.wrap).append(renderNav()).append(out).append(_tpl.clearfix));
         nav = cal.find('.yclNav');
         nav.find('.prev').on('click', function() {
-          return renderCalendar(cal, -1);
+          return renderCalendar(cal, -_pageSize);
         });
         return nav.find('.next').on('click', function() {
-          return renderCalendar(cal, 1);
+          return renderCalendar(cal, _pageSize);
         });
       };
       opts = $.extend(true, {}, $.fn.yacal.defaults, options);
@@ -191,6 +193,9 @@ Released under the MIT license
       if (opts.maxDate) {
         _maxDate = new Date(opts.maxDate);
       }
+      _pageSize = (ref = opts.pageSize) != null ? ref : 1;
+      _isActive = opts.isActive;
+      _dayClass = opts.dayClass;
       _weekPart = _tpl.week.split('|');
       _monthPart = _tpl.month.split('|');
       return renderCalendar(this);
@@ -203,8 +208,9 @@ Released under the MIT license
     minDate: null,
     maxDate: null,
     firstDay: 0,
+    pageSize: 1,
     tpl: {
-      day: tag('a', 'day d' + _ph.wd + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a, _ph.d, 'time="' + _ph.dt + '"'),
+      day: tag('a', 'day d' + _ph.wd + '' + _ph.we + '' + _ph.t + '' + _ph.s + '' + _ph.a + '' + _ph.dc, _ph.d, 'time="' + _ph.dt + '"'),
       weekday: tag('i', 'wday wd' + _ph.wd, _ph.wdn),
       week: tag('div', 'week w' + _ph.w + _ph.ws, '|', 'time="' + _ph.wt + '"'),
       month: tag('div', 'month m' + _ph.m, tag('h4', null, _ph.mnam + ' ' + _ph.y) + '|'),
