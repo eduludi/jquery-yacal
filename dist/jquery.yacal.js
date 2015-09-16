@@ -111,7 +111,6 @@ Released under the MIT license
       };
       renderDay = function(date) {
         var ref, ref1;
-        console.log(date.getDay());
         return _tpl.day.replace(_ph.d, date.getDate()).replace(_ph.dt, +date).replace(_ph.wd, date.getDay()).replace(_ph.we, isWeekend(date) ? ' weekend' : _eStr).replace(_ph.t, isToday(date) ? ' today' : _eStr).replace(_ph.s, isSelected(date) ? ' selected' : _eStr).replace(_ph.a, ((ref1 = inRange(date, _minDate, _maxDate) && (typeof _isActive === "function" ? _isActive(date) : void 0)) != null ? ref1 : true) ? ' active' : _eStr).replace(_ph.dc, ' ' + ((ref = typeof _dayClass === "function" ? _dayClass(date) : void 0) != null ? ref : _eStr));
       };
       renderMonth = function(date, nav) {
