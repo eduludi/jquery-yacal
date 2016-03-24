@@ -1,6 +1,8 @@
 # jQuery yacal
 **Y**et **A**nother **Cal**endar plugin for jQuery.
 
+[![Code Climate](https://codeclimate.com/github/eduludi/jquery-yacal/badges/gpa.svg)](https://codeclimate.com/github/eduludi/jquery-yacal)
+
 ## What is yacal?
 Yacal is a lightweight (~3.5KB min / ~1.5kb gzip) **jQuery calendar plugin**, easy to configure and use. It comes with a default template, but you can tune up at your taste, and it also supports some basic internationalization. 
 
